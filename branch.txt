@@ -6,3 +6,4 @@ Creating a new branch is quick but hard.
 >>>>>>> branch1
 
 git checkout -b dev
+git checkout -b issue-101
