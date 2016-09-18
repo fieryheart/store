@@ -1,2 +1,6 @@
 I am studying the branch of git.
-Creating a new branch is quick and simple.
+<<<<<<< HEAD
+Creating a new branch is quick but hard.
+=======
+Creating a new branch is quick but hard.
+>>>>>>> branch1
