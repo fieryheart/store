@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>盒子模型</title>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+		}
+		.outside{
+			margin-top: 50px;
+			margin-right: 50px;
+			margin-bottom: 50px;
+			margin-left: 50px;
+			margin:;
+			padding-top: 50px;
+			padding-right: 50px;
+			padding-bottom: 50px;
+			padding-left: 50px;
+			padding:;
+			border: 50px solid #000000;
+			display: inline-block;
+			background-color: #ffffff;
+		}
+		.internal{
+			width: 100px;
+			height:100px;
+			color: #ffffff;
+			background-color: #ff0000;
+		}
+	</style>
+</head>
+<body>
+	<div class="outside">
+		<div class="internal">content</div>
+	</div>
+</body>
+</html>
