@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ES6-Proxy()</title>
+</head>
+<body>
+	<script>
+		//Proxy(target, handler);
+		//target参数表示所要拦截的目标对象，handler参数也是一个对象，用来定制拦截行为
+		//下面的{}是target,{get:,set:}是handler
+		var obj = new Proxy({}, {
+			get: function(target, key, receiver){
+				console.log(`getting ${key}!`);
+				return Reflect.get(target, key, receiver);
+			},
+			set:  function(target, key, value, receiver){
+				console.log(`setting ${key}!`);
+				return Reflect.set(target, key, value, receiver);
+			}
+		});
+
+		obj.count = 1;
+		++obj.count;
+
+
+
+		//配置对象getBarrier有一个get方法，用来拦截对目标对象属性的访问请求
+		var handler1 = {
+			get: function(target, property){
+				target[property] = property;				
+			}
+		};
+		var proxy = new Proxy({}, handler1);
+
+		console.log(proxy.time);
+		console.log(proxy.name);
+		console.log(proxy.title);
+		console.log(proxy);
+		for (var i in proxy){
+			console.log(i);
+		}
+		var t = {x:1};
+		console.log(t);
+
+
+
+		var target2 = {};
+		var handler2 = {};
+		var proxy2 = new Proxy(target2, handler2);
+		target2.a = 'b';
+		console.log(proxy2.a);
+	</script>
+</body>
+</html>
