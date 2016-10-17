@@ -13,12 +13,12 @@ module.exports = {
 	  	loaders: [
 	    		{test: /\.json$/,loader: "json"},
 	   		{test: /\.js$/,exclude: /node_modules/,loader: 'babel'},
-	    		{test: /\.css$/,loader: 'style!css?modules!postcss'}
+	    		{test: /\.css$/,loader: 'style!css?modules'}
 	  	]
 	},
 
 	postcss: [
-		require('autoprefixer')
+		require('autoprefixer'),
 	],
 
 	plugins: [
