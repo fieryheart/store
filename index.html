@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=0.75, minimum-scale=0.7, maximum-scale=1, user-scalable=no">
+	<meta name="MobileOptimized" content="240"/>
+	<title>game</title>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			background-color:#000000;
+		}
+
+	</style>
+</head>
+<script src="js/phaser.min.js"></script>
+<body>
+	<div id="game"></div>
+</body>
+<script src="js/boot.js"></script>
+<script src="js/preload.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/play.js"></script>
+<script src="js/help.js"></script>
+<script src="js/credits.js"></script>
+<script src="js/gameOver.js"></script>
+<script src="js/complete.js"></script>
+<script>
+	(function(){
+
+
+
+		var game = new Phaser.Game(480,640,Phaser.AUTO,'game');
+
+
+
+		game.state.add('boot',States.boot);
+		game.state.add('preload',States.preload);
+		game.state.add('menu',States.menu);
+		game.state.add('play',States.play);
+		game.state.add('help',States.help);
+		game.state.add('credits',States.credits);
+		game.state.add('gameOver',States.gameOver);
+		game.state.add('Complete',States.Complete);
+
+
+		game.state.start('boot');
+
+
+
+
+	})()
+
+
+</script>
+
+</html>
