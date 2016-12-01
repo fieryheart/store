@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vertical-align</title>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: "微软雅黑";
+		}
+		.class2 {
+			text-align: center;
+			background-color: #aaa;
+			height: 500px;
+/*			display: table-cell;*/
+			line-height: 500px;
+		}
+		.class2 img{
+			vertical-align: middle;
+			
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div class="class1">
+		<h1>vertical-align</h1>
+			<ul>
+				<li>线类
+					<ul>
+						<li>baseline</li>
+						<li>top</li>
+						<li>middle</li>
+						<li>bottom</li>	
+					</ul>
+				</li>
+				<li>文本类
+					<ul>
+						<li>text-top</li>
+						<li>text-bottom</li>
+					</ul>
+				</li>
+				<li>上标下标类
+					<ul>
+						<li>sub</li>
+						<li>super</li>
+					</ul>
+				</li>
+				<li>百分比类
+					<ul>
+						<li>20px</li>
+						<li>2em</li>
+						<li>20%</li>
+						<li>...</li>
+					</ul>
+				</li>
+				<li>inherit</li>
+			</ul>
+		</div>
+		<hr />
+		<h1>vertival-height起作用的条件</h1>
+		<p>display: inline || inline-block || table-cell</p>
+		<hr />
+		<div class="class2">
+			<img src="./images/example.jpg" alt="" width="600px" height="400px" />
+		</div>
+		<hr />
+	</div>
+</body>
+</html>

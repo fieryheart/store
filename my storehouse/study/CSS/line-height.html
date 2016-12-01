@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>line-height</title>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+			font-family: "微软雅黑";
+		}
+		ul{
+			font-size:36px;
+			font-weight: 100;
+			line-height: 150%;
+		}
+		.img{
+/*			height:450px;*/
+			background-color: #eee;
+			font-size:24px;
+
+		}
+		img{
+			margin-left: 50px;
+		/*	display:block;*/
+			vertical-align: bottom;
+		}
+		.img_p{
+			margin: 0;
+			display: inline-block;
+			background-color: #ffffff;
+		/*	line-height: 90px;*/
+		}
+
+		.img1{
+			height: 600px;
+			background-color:#eee;
+			text-align: center;
+			line-height: 600px;
+
+		}
+		.img1 img{
+			vertical-align: middle;
+		}
+
+		.line-height{
+			/*height:400px;*/
+			background-color: #eee;
+			line-height: 400px;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<h1>line-height支持属性值</h1>
+		<ul>
+			<li class="normal">normal</li>
+			<li class="number">&lt;number&gt;</li>
+			<li class="length">&lt;length&gt;</li>
+			<li class="percent">&lt;percent&gt;</li>
+			<li class="inherit">&lt;inherit&gt;</li>
+		</ul>
+		<hr />
+		<div class="img">
+			<img src="./images/example.jpg" alt="" width="600px" height="400px">
+			<p class="img_p">img:图片高度400px,字体大小24像素</p>
+		</div>
+
+		<hr />
+		<div class="img1">
+			<img src="./images/example.jpg" alt="" width="600px" height="400px">
+		</div>
+
+		<hr />
+		<div class="line-height">
+			<p>hello world</p>
+		</div>
+	</div>
+</body>
+</html>
