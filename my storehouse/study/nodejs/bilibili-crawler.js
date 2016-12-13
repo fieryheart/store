@@ -1,3 +1,5 @@
+// 暂时无法获取通过异步请求得到的节点，如每周排行榜等实时更新的东西
+
 var http = require('http');
 var cheerio = require('cheerio');
 var url = 'http://www.bilibili.com/ranking';
