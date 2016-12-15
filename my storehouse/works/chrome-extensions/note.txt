@@ -1,2 +1,0 @@
-manifext.json
-            |-----"content_scripts": [{"matches": ["*://www.google.com/"],"js": ["js/cannot_touch.js"]}]
