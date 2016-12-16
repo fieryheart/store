@@ -14,15 +14,24 @@
       width: 200px;
       height: 50px;
     }
-    #ip_div {
+    #container {
       font-size: 16px;
       color: #000;
+      text-align: center;
+    }
+    h3 {
+      color:#aaa;
     }
     .ipa {
       line-height: 25px;
-      font-size: 16px;
-      text-align: left;
+      font-size: 1vw;
+      text-align: center;
       color: #aaa;
+    }
+    .ipa:hover{
+      color: #fff;
+      background-color: #aaa;
+      cursor: default;
     }
     .hr {
       display: block;
@@ -46,20 +55,21 @@
     .btn:hover {
       cursor: pointer;
       transition: 0.37s;
-      background-color:  #337AB7;
-      color: #fff;
+      background-color:  #eeeeee;
     }
     .btn:focus {
-      background-color:  #3366CC;
+      background-color:  #337AB7;
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <div id="ip_div">
+  <div id="container">
+      <h3>Your Location</h3>
+      <span class="hr"></span>
       <button class="btn" id="ip">IP</button>
       <span class="hr"></span>
-      <div class="ipa" id="ipT">正在获取...</div>
-      <span class="hr"></span>
+      <div class="ipa" id="ipT"></div>
       <span class="hr"></span>
       <button class="btn" id="address">address</button>
       <span class="hr"></span>
