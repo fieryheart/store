@@ -30,16 +30,38 @@
       border-bottom: 1px solid #eee;
       border-top: 2px solid transparent;
     }
+    .btn {
+      width: 100%;
+      line-height: 25px;
+      font-size: 16px;
+      display: block;
+      background-color: #FFF;
+      color: #337AB7;
+      text-align: center;
+      outline: none;
+      border: 0px solid transparent;
+      border-radius: 5px;
+      transition: 0.37s;
+    }
+    .btn:hover {
+      cursor: pointer;
+      transition: 0.37s;
+      background-color:  #337AB7;
+      color: #fff;
+    }
+    .btn:focus {
+      background-color:  #3366CC;
+    }
   </style>
 </head>
 <body>
   <div id="ip_div">
-      本机IP:
+      <button class="btn">IP</button>
       <span class="hr"></span>
       <div class="ipa" id="ip">正在获取...</div>
       <span class="hr"></span>
       <span class="hr"></span>
-      本机address:
+      <button class="btn">address</button>
       <span class="hr"></span>
       <div class="ipa" id="address"></div>
   </div>
