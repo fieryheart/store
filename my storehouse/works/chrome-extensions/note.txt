@@ -1,0 +1,23 @@
+chrome.localStorage ||
+"permissions": [
+  "storage"
+] +
+chrome.storage = chrome存储数据
+
+
+
+
+
+
+
+
+
+
+
+"permissions": [
+  "contextMenus"
+] +
+"icons": {
+  "16" : "icon16.png"
+} +
+chrome.contextMenus = chrome页面右键菜单
