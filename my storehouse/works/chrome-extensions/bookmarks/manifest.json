@@ -1,22 +1,19 @@
 {
   "manifest_version": 2,
-  "name": "BookmarksExtension",
+  "name": "ImagesAlt",
   "version": "1.0",
-  "description": "bookmarks",
+  "description": "catch the contents in the back of images",
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
-  "browser_action": {
-      "default_icon": {
-          "19": "images/icon19.png",
-          "38": "images/icon38.png"
-      },
-      "default_title": "Internet Location",
-      "default_popup": "popup.html"
+  "background": {
+    "scripts": [
+      "js/status.js"
+    ]
   },
   "permissions": [
-    "http://ip.chinaz.com/getip.aspx"
+    "contextMenus"
   ]
 }
