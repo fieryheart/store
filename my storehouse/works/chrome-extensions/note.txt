@@ -9,11 +9,6 @@ chrome.storage = chrome存储数据
 
 
 
-
-
-
-
-
 "permissions": [
   "contextMenus"
 ] +
@@ -21,3 +16,17 @@ chrome.storage = chrome存储数据
   "16" : "icon16.png"
 } +
 chrome.contextMenus = chrome页面右键菜单
+
+
+"permissons": [
+  "notifications"
+] +
+"web_accessible_resources": [
+  "icon48.png"
+] +
+var notification = webkitNotifications.createNotification(
+  'icon48.png',
+  'head-context',
+  'main-content'
+) +
+notication.show() = chrome桌面提醒
