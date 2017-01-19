@@ -63,43 +63,43 @@ function init(x , y) {
 	let rst = {};
 	let str_rst = [];
 	rst =  judgeMinus(num_x, num_y);
-	
 	//需要一个记忆功能；
 	// return rst;
-	str_rst = reverseNum( rst.str_num );
-	
+	str_rst = reverseNum( rst.number );
 	if(rst.minus == 1){
 		
-		return str_rst;
+		return str_rst.join("");
 	}else if(rst.minus == -1){
 		
-		return '-' + str_rst;
+		return '-' + str_rst.join("");
 	}
 }
 
 function bigNumAdd(x , y , minus) {
 	let carry = 0;
 	let bigLen = x.length > y.length ? x.length : y.length;
-	let smallLen = x.length < y.length ? x.length : y.length;
 	let add_num =[] ;
 	let rst = {};
 	//相加
-	for(let i = 0; i < bigLen || i == 1; i++){
+	
+	for(let i = 0; i < bigLen || carry == 1; i++){
 		if(x.number[i] && y.number[i]){
-			add_num[i] += ((x.number[i] - 0) + (y.number[i] - 0) + carry) % 10;
-			
-			
+			add_num[i] = ((x.number[i] - 0) + (y.number[i] - 0) + carry) % 10;	
+		}else if(x.number[i] && !y.number[i]){
+			add_num[i] = x.number[i]-0 + carry;
+		}else if(y.number[i] && !x.number[i]){
+			add_num[i] = y.number[i]-0 + carry;
 		}else{
 			add_num[i] = carry;
 		}
-		
-		if((x.number[i] - 0) + (y.number[i] - 0) > 9){
+
+		if(x.number[i] && y.number[i] && (x.number[i] - 0) + (y.number[i] - 0) > 9){
 			carry = 1;
 		}else{
 			carry = 0;
 		}
 	}
 	rst = new BigNum(add_num.join(""), minus);
-
+	
 	return rst;
 }
