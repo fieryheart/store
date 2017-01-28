@@ -103,3 +103,55 @@ function bigNumAdd(x , y , minus) {
 	
 	return rst;
 }
+
+function bigNumSub(x, y) {
+	let borrow = 0;
+	let bigNum;
+	let smallNum;
+	let minus = 1;
+	let bigLen = x.length > y.length ? x.length : y.length;
+	let sub_num =[] ;
+	let rst = {};
+
+	//补零
+	for(let i = 0; i < bigLen;i++){
+		if(i > x.length - 1){
+			x.number[0] = '0';
+		}
+		if(i > y.length - 1){
+			y.number[0] = '0';
+		}
+	}
+
+	//判定大小
+	bigNum = x;
+	smallNum = y;
+	for(let i = 0; i < bigLen; i++){
+		if(x.number[i] < y.number[i]){
+			bigNum = y;
+			smallNum = x;
+			break;
+		}
+	}
+
+	//相减
+	for(let i = 0; i < bigLen; i++){
+		if((bigNum.number[i] - 0) - borrow > (smallNum.number[i] - 0)){
+			sub_num[i] = ((bigNum.number[i] - 0) - (smallNum.number[i] - 0) - borrow) % 10;
+			borrow = 0;
+		}else if((bigNum.number[i] - 0) - borrow < (smallNum.number[i] - 0)){
+			sub_num[i] = ((bigNum.number[i] - 0) - (smallNum.number[i] - 0) - borrow + 10) % 10;
+			borrow = 1; 
+		}else{
+			sub_num[i] = 0;
+		}
+	}
+	
+	//判断符号
+	if(bigNum.minus == -1){
+		minus = -1;
+	}
+
+	rst = new BigNum(sub_num.join("") , minus);
+	return rst;
+}
