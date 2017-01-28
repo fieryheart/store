@@ -1,5 +1,14 @@
 var app = app || {}
 
+// this.key
+// this.todos 是一个本地缓存数组， 用来存储所有的todo
+// this.onChange 
+
+
+// this.toggle方法使用重新创建一个todo对象来改变completed的值,
+// 同时他们的比较方式是比较整个对象，而非对象的id
+
+// 明明只是一个记录将要做的事情，在它被创建的那一刻就已经被保存了，为什么还要有个this.save()方法
 (function () {
 	'use strict';
 
@@ -32,7 +41,7 @@ var app = app || {}
 	};
 
 	app.TodoModel.prototype.toggleAll = function() {
-		thid.todos = this.todos.map(function (todo) {
+		this.todos = this.todos.map(function (todo) {
 			return Utils.extend({}, todo, {completed: checked});
 		});
 
