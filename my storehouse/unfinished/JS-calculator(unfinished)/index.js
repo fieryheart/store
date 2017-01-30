@@ -49,9 +49,9 @@ function bigNumTrans(num) {
 function judgeMinus(x, y) {
 	if(x.minus == 1 && y.minus == 1){
 		return bigNumAdd(x , y , 1);
-	}else if(x.minus == -1 && x.minus == -1){
+	}else if(x.minus == -1 && y.minus == -1){
 		return bigNumAdd(x , y , -1);
-	}else{
+	}else if(x.minus == -1 || y.minus == -1){
 		return bigNumSub(x , y);
 	}
 }
@@ -116,34 +116,40 @@ function bigNumSub(x, y) {
 	//补零
 	for(let i = 0; i < bigLen;i++){
 		if(i > x.length - 1){
-			x.number[0] = '0';
+			x.number[i] = '0';
 		}
 		if(i > y.length - 1){
-			y.number[0] = '0';
+			y.number[i] = '0';
 		}
 	}
 
 	//判定大小
-	bigNum = x;
-	smallNum = y;
 	for(let i = 0; i < bigLen; i++){
 		if(x.number[i] < y.number[i]){
 			bigNum = y;
 			smallNum = x;
-			break;
+		}else{
+			bigNum = x;
+			smallNum = y;
 		}
 	}
 
+
+	console.log(bigNum.number);
+	console.log(smallNum.number);
 	//相减
 	for(let i = 0; i < bigLen; i++){
 		if((bigNum.number[i] - 0) - borrow > (smallNum.number[i] - 0)){
 			sub_num[i] = ((bigNum.number[i] - 0) - (smallNum.number[i] - 0) - borrow) % 10;
 			borrow = 0;
+			console.log(sub_num[i]);
 		}else if((bigNum.number[i] - 0) - borrow < (smallNum.number[i] - 0)){
 			sub_num[i] = ((bigNum.number[i] - 0) - (smallNum.number[i] - 0) - borrow + 10) % 10;
-			borrow = 1; 
+			borrow = 1;
+			console.log(sub_num[i]); 
 		}else{
 			sub_num[i] = 0;
+			console.log(sub_num[i]);
 		}
 	}
 	
@@ -151,6 +157,8 @@ function bigNumSub(x, y) {
 	if(bigNum.minus == -1){
 		minus = -1;
 	}
+
+	
 
 	rst = new BigNum(sub_num.join("") , minus);
 	return rst;
