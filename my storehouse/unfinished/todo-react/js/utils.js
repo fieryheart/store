@@ -24,7 +24,7 @@ var app = app || {};
 		},
 
 		// 使成复数
-		pluralize: function() {
+		pluralize: function(count, word) {
 			
 			return count === 1 ? word : word + 's';
 
