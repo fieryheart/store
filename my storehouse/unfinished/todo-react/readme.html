@@ -1014,8 +1014,51 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>readme</title></head><body><article class="markdown-body"><h1 id="todo-mvc-react"><a name="user-content-todo-mvc-react" href="#todo-mvc-react" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Todo-MVC-react</h1>
-<h3 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>设计模式</h3>
+</style><title>readme</title></head><body><article class="markdown-body"><h1 id="todomvc-react"><a name="user-content-todomvc-react" href="#todomvc-react" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>TodoMVC-react学习笔记</h1>
+<h2 id="utilsjs"><a name="user-content-utilsjs" href="#utilsjs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>utils.js</h2>
 <blockquote>
-<p>订阅-发布模式</p>
-</blockquote></article></body></html>
+<p><strong>1. app.Utils.uuid</strong><br />
+<pre><code>        uuid: function () {
+            var i, random;
+            var uuid = '';
+            for (i = 0; i &lt; 32; i++) {
+                random = Math.random() * 16 | 0;
+                if (i === 8 || i === 12 || i === 16 || i === 20) {
+                    uuid += '-';
+                }
+                uuid += (i === 12 ? 4 : (i === 16 ? (random &amp; 3 | 8) : random))
+                    .toString(16);
+            }
+            return uuid;
+        }
+</code></pre><br />
+给每个todo一个id</p>
+<p><strong>2. app.Utils.pluralize</strong><br />
+<pre><code>        pluralize: function (count, word) {
+            return count === 1 ? word : word + 's';
+        },
+</code></pre><br />
+<font color="#00008B">&lt;footer&gt; -&gt; &lt;span&gt; -&gt; 判断是 &lsquo;item&rsquo; 或 &lsquo;items&rsquo; </font></p>
+<p><strong>3. app.Utils.store</strong><br />
+<pre><code>        store: function (namespace, data) {
+            if (data) {
+            return localStorage.setItem(namespace, JSON.stringify(data));
+        }  
+            var store = localStorage.getItem(namespace);
+            return (store &amp;&amp; JSON.parse(store)) || [];
+        },
+</code></pre><br />
+本地存储</p>
+</blockquote>
+<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>从用户操作来看</h2>
+<blockquote>
+<p><strong>1.用户在 &lt;header&gt; -&gt; &lt;input&gt; 中输入值(value)</strong><br />
+触发 <font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; handleNewChange</font> 事件；<br />
+值(value)赋给 <font color="#00008B">TodoApp组件 -&gt; state -&gt; newTodo</font>；</p>
+<p><strong>2.用户按下ENTER键</strong><br />
+触发<font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; handleNewTodoKeyDown</font>事件；<br />
+执行<font color="#00008B">todoModel.js -&gt; app.TodoModel.addTodo</font>方法；</p>
+<p>指令形式： Controller -&gt; Model</p>
+</blockquote>
+<p>.</p>
+<blockquote></blockquote></article></body></html>
