@@ -1183,7 +1183,7 @@ inform: 消息发布；消息是app中出现的每一个改变；所有数据重
         },
 </code></pre><br />
 触发<font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; handleNewTodoKeyDown</font>事件；<br />
-执行<font color="#00008B">todoModel.js -&gt; app.TodoModel.addTodo</font>方法；</p>
+执行<font color="#00008B">todoModel.js -&gt; app.TodoModel.prototype.addTodo</font>方法；</p>
 <p>指令形式： Controller -&gt; Model</p>
 </blockquote>
 <p>.</p>
@@ -1197,7 +1197,7 @@ inform: 消息发布；消息是app中出现的每一个改变；所有数据重
 </code></pre><br />
 触发<font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; toggleAll</font>事件；<br />
 得到当前&lg;input class=&rdquo;toggle-all&rdquo; /&gt;中checked属性的值(true/false)，用来决定标记的“事情”对象；<br />
-触发<font color="#00008B">todoModel.js -&gt; toggleAll</font>事件；<br />
+触发<font color="#00008B">todoModel.js -&gt; app.TodoModel.prototype.toggleAll</font>方法；<br />
 标记model中所有“事情”对象，执行完成/未完成；</p>
 </blockquote>
 <p>.</p>
@@ -1219,9 +1219,9 @@ inform: 消息发布；消息是app中出现的每一个改变；所有数据重
                 );
             }, this);
 </code></pre><br />
-shownTodos：当前展示的“事情”对象（根据已完成/未完成）<br />
+shownTodos：当前展示的“事情”对象（根据已完成/未完成）；<br />
 触发<font color="#00008B">app.jsx -&gt;TodoApp组件 -&gt; toggle</font>事件；<br />
-触发<font color="#00008B">todoModel.js -&gt; toggle</font>事件；</p>
+触发<font color="#00008B">todoModel.js -&gt; app.model.prototype.toggle</font>方法；</p>
 </blockquote>
 <h3 id="text"><a name="user-content-text" href="#text" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>改变一个“事情”对象的text</h3>
 <blockquote>
@@ -1230,16 +1230,105 @@ shownTodos：当前展示的“事情”对象（根据已完成/未完成）<br
             {this.props.todo.title}
         &lt;/label&gt;
 </code></pre><br />
-触发<font color="#00008B">todoItem.jsx -&gt; handleEdit</font>事件<br />
+触发<font color="#00008B">todoItem.jsx -&gt; handleEdit</font>事件；<br />
 <pre><code>        handleEdit: function () {
             this.props.onEdit();
             this.setState({editText: this.props.todo.title});
         },
 </code></pre><br />
-触发<font color="#00008B">app.jsx -&gt; edit</font>事件<br />
+触发<font color="#00008B">app.jsx -&gt; edit</font>事件；<br />
 <pre><code>        edit: function (todo) {
             this.setState({editing: todo.id});
         },
 </code></pre><br />
-将state对象editing赋值为todo的id，即现在正在编辑的对象</p>
+将state对象editing赋值为todo的id，即现在正在编辑的对象；<br />
+<font color="#00008B">&lt;TodoItem /&gt; -&gt; title 赋给 todoItem.jsx -&gt; app.TodoItem -&gt; state -&gt; editText</font>；<br />
+<pre><code>        &lt;input
+            ref=&quot;editField&quot;
+            className=&quot;edit&quot;
+            value={this.state.editText}
+            onBlur={this.handleSubmit}
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
+        /&gt;
+</code></pre><br />
+item中出现输入框；<br />
+this.handleSubmit、this.handleChange、this.handleKeyDown 与 TodoApp组件如出一辙；<br />
+this.onSave：给当前“事情”对象改变text<br />
+补充：通过给<em>&lt;div class=&rdquo;view&rdquo;&gt;</em>加上<code>editing</code>实现<code>display: none</code>；</p>
+</blockquote>
+<p>.</p>
+<h3 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>销毁一个“事情”对象</h3>
+<blockquote>
+<p><strong>用户点击&lt;button class=&rdquo;destory&rdquo;&gt;</strong><br />
+<pre><code>        &lt;button className=&quot;destroy&quot; onClick={this.props.onDestroy} /&gt;
+</code></pre><br />
+触发<font color="#00008B">app.jsx -&gt; TodoItem组件 -&gt; onDestroy -&gt; TodoApp组件 -&gt; destroy</font>事件；<br />
+<pre><code>        destroy: function (todo) {
+            this.props.model.destroy(todo);
+        },
+</code></pre><br />
+触发<font color="#00008B">todoModel.js -&gt; app.model.prototype.destroy</font>方法；</p>
+</blockquote>
+<p>.</p>
+<h3 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>筛选“事情”对象</h3>
+<blockquote>
+<p><strong>用户点击&rdquo;All&rdquo;、&rdquo;Acitve&rdquo;、&rdquo;Completed&rdquo;</strong><br />
+<pre><code>                &lt;footer className=&quot;footer&quot;&gt;
+                    &lt;span className=&quot;todo-count&quot;&gt;
+                        &lt;strong&gt;{this.props.count}&lt;/strong&gt; {activeTodoWord} left
+                    &lt;/span&gt;
+                    &lt;ul className=&quot;filters&quot;&gt;
+                        &lt;li&gt;
+                            &lt;a
+                                href=&quot;#/&quot;
+                                className={classNames({selected: nowShowing === app.ALL_TODOS})}&gt;
+                                    All
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                        {' '}
+                        &lt;li&gt;
+                            &lt;a
+                                href=&quot;#/active&quot;
+                                className={classNames({selected: nowShowing === app.ACTIVE_TODOS})}&gt;
+                                    Active
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                        {' '}
+                        &lt;li&gt;
+                            &lt;a
+                                href=&quot;#/completed&quot;
+                                className={classNames({selected: nowShowing === app.COMPLETED_TODOS})}&gt;
+                                    Completed
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                    &lt;/ul&gt;
+                    {clearButton}
+                &lt;/footer&gt;
+</code></pre><br />
+触发<font color="#00008B">footer.jsx -&gt; &lt;footer className=&rdquo;footer&rdquo;&gt; -&gt; &lt;ul className=&rdquo;filter&rdquo;&gt; -&gt; &lt;a&gt; -&gt; app.jsx -&gt; componentDidMount -&gt; Router</font><br />
+<pre><code>        componentDidMount: function () {
+            var setState = this.setState;
+            var router = Router({
+                '/': setState.bind(this, {nowShowing: app.ALL_TODOS}),
+                '/active': setState.bind(this, {nowShowing: app.ACTIVE_TODOS}),
+                '/completed': setState.bind(this, {nowShowing: app.COMPLETED_TODOS})
+            });
+            router.init('/');
+        },
+</code></pre><br />
+执行URL解析，跳转页面</p>
+</blockquote>
+<p>.</p>
+<h2 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>总结</h2>
+<blockquote>
+<p><ul><br />
+   <li>ReactJS —— 一个注重于UI的框架</li><br />
+   <li>用户的行为有输入、改写、删除、筛选、标记、归零操作</li><br />
+   <li>app.jsx：Controller；展现给用户的操作，即用户发出的指令逻辑；整个app组件的集合；</li><br />
+   <li>todoModel.js：Model；用户发出指令后对数据的处理过程；订阅发布模式；</li><br />
+   <li>todoItem.jsx、footer.jsx：View；各个组件</li><br />
+   <li>utils.js：工具库</li><br />
+   <li>我的看法：将items组合的过程与app.jsx分开，实现View和Control分离</li><br />
+</ul></p>
 </blockquote></article></body></html>
