@@ -1097,17 +1097,149 @@ inform: 消息发布；消息是app中出现的每一个改变；所有数据重
         this.inform();
     };
 </code></pre><br />
+添加一个要做的事情；发布；</p>
+<p><pre><code>    app.TodoModel.prototype.toggleAll = function (checked) {
+        this.todos = this.todos.map(function (todo) {
+            return Utils.extend({}, todo, {completed: checked});
+        });
+        this.inform();
+    };
+</code></pre><br />
+对所有的“事情”对象做同样的动作，即标记所有执行（完成/未完成）；发布；</p>
+<p><pre><code>    app.TodoModel.prototype.toggle = function (todoToToggle) {
+        this.todos = this.todos.map(function (todo) {
+            return todo !== todoToToggle ?
+                todo :
+                Utils.extend({}, todo, {completed: !todo.completed});
+        });
+        this.inform();
+    };
+</code></pre><br />
+对一个“事情”对象执行动作；发布；</p>
+<p><pre><code>    app.TodoModel.prototype.destroy = function (todo) {
+        this.todos = this.todos.filter(function (candidate) {
+            return candidate !== todo;
+        });
+        this.inform();
+    };
+</code></pre><br />
+销毁一个“事情”对象；发布；</p>
+<p><pre><code>    app.TodoModel.prototype.save = function (todoToSave, text) {
+        this.todos = this.todos.map(function (todo) {
+            return todo !== todoToSave ? todo : Utils.extend({}, todo, {title: text});
+        });
+        this.inform();
+    };
+</code></pre><br />
+改变一个“事情”对象的text；发布；</p>
+<p><pre><code>    app.TodoModel.prototype.clearCompleted = function () {
+        this.todos = this.todos.filter(function (todo) {
+            return !todo.completed;
+        });
+        this.inform();
+    };
+</code></pre><br />
+销毁所有完成了的“事情”对象；发布；<br />
 </p>
 </blockquote>
-<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>从用户操作来看</h2>
+<h2 id="todoitemjsx"><a name="user-content-todoitemjsx" href="#todoitemjsx" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>todoItem.jsx</h2>
+<blockquote>
+<p><strong>“事情”对象列表部分</strong><br />
+<ul><br />
+   <li>展示“事情”对象</li><br />
+   <li>改变“事情”对象的completed</li><br />
+   <li>改变单个“事情”对象的text；销毁单个“事情”对象</li><br />
+</ul> </p>
+</blockquote>
+<h2 id="footerjsx"><a name="user-content-footerjsx" href="#footerjsx" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>footer.jsx</h2>
+<blockquote>
+<p><strong>footer部分</strong><br />
+<ul><br />
+   <li>筛选“事情”对象</li><br />
+   <li>销毁所有完成的“事情”对象</li><br />
+</ul></p>
+</blockquote>
+<h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>用户操作</h2>
+<h3 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>界面输入</h3>
 <blockquote>
 <p><strong>1.用户在 &lt;header&gt; -&gt; &lt;input&gt; 中输入值(value)</strong><br />
-触发 <font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; handleNewChange</font> 事件；<br />
+<pre><code>      handleChange: function (event) {
+            this.setState({newTodo: event.target.value});
+      },
+</code></pre><br />
+触发 <font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; handleChange</font> 事件；<br />
 值(value)赋给 <font color="#00008B">TodoApp组件 -&gt; state -&gt; newTodo</font>；</p>
 <p><strong>2.用户按下ENTER键</strong><br />
+<pre><code>        handleNewTodoKeyDown: function (event) {
+            if (event.keyCode !== ENTER_KEY) {
+                return;
+            }
+            event.preventDefault();
+            var val = this.state.newTodo.trim();
+            if (val) {
+                this.props.model.addTodo(val);
+                this.setState({newTodo: ''});
+            }
+        },
+</code></pre><br />
 触发<font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; handleNewTodoKeyDown</font>事件；<br />
 执行<font color="#00008B">todoModel.js -&gt; app.TodoModel.addTodo</font>方法；</p>
 <p>指令形式： Controller -&gt; Model</p>
 </blockquote>
 <p>.</p>
-<blockquote></blockquote></article></body></html>
+<h3 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>标记所有</h3>
+<blockquote>
+<p><strong>用户点击&lt;input class=&rdquo;toggle-all&rdquo; /&gt;</strong><br />
+<pre><code>        toggleAll: function (event) {
+            var checked = event.target.checked;
+            this.props.model.toggleAll(checked);
+        },
+</code></pre><br />
+触发<font color="#00008B">app.jsx -&gt; TodoApp组件 -&gt; toggleAll</font>事件；<br />
+得到当前&lg;input class=&rdquo;toggle-all&rdquo; /&gt;中checked属性的值(true/false)，用来决定标记的“事情”对象；<br />
+触发<font color="#00008B">todoModel.js -&gt; toggleAll</font>事件；<br />
+标记model中所有“事情”对象，执行完成/未完成；</p>
+</blockquote>
+<p>.</p>
+<h3 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>标记一个&rdquo;事情&rdquo;对象</h3>
+<blockquote>
+<p><strong>用户点击&lt;input class=&rdquo;toggle&rdquo; /&gt;</strong><br />
+<pre><code>            var todoItems = shownTodos.map(function (todo) {
+                return (
+                    &lt;TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        onToggle={this.toggle.bind(this, todo)}
+                        onDestroy={this.destroy.bind(this, todo)}
+                        onEdit={this.edit.bind(this, todo)}
+                        editing={this.state.editing === todo.id}
+                        onSave={this.save.bind(this, todo)}
+                        onCancel={this.cancel}
+                    /&gt;
+                );
+            }, this);
+</code></pre><br />
+shownTodos：当前展示的“事情”对象（根据已完成/未完成）<br />
+触发<font color="#00008B">app.jsx -&gt;TodoApp组件 -&gt; toggle</font>事件；<br />
+触发<font color="#00008B">todoModel.js -&gt; toggle</font>事件；</p>
+</blockquote>
+<h3 id="text"><a name="user-content-text" href="#text" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>改变一个“事情”对象的text</h3>
+<blockquote>
+<p><strong>用户双击&lt;label&gt;</strong><br />
+<pre><code>        &lt;label onDoubleClick={this.handleEdit}&gt;
+            {this.props.todo.title}
+        &lt;/label&gt;
+</code></pre><br />
+触发<font color="#00008B">todoItem.jsx -&gt; handleEdit</font>事件<br />
+<pre><code>        handleEdit: function () {
+            this.props.onEdit();
+            this.setState({editText: this.props.todo.title});
+        },
+</code></pre><br />
+触发<font color="#00008B">app.jsx -&gt; edit</font>事件<br />
+<pre><code>        edit: function (todo) {
+            this.setState({editing: todo.id});
+        },
+</code></pre><br />
+将state对象editing赋值为todo的id，即现在正在编辑的对象</p>
+</blockquote></article></body></html>
