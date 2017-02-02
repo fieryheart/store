@@ -1048,7 +1048,56 @@ body .markdown-body
             return (store &amp;&amp; JSON.parse(store)) || [];
         },
 </code></pre><br />
-本地存储</p>
+本地存储，store为一个数组</p>
+<p><strong>4. app.Utils.extend</strong><br />
+<pre><code>        extend: function () {
+            var newObj = {};
+            for (var i = 0; i &lt; arguments.length; i++) {
+                var obj = arguments[i];
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        newObj[key] = obj[key];
+                    }
+                }
+            }
+            return newObj;
+        }
+</code></pre><br />
+将多个对象合成一个新的对象</p>
+</blockquote>
+<h2 id="todomodeljs"><a name="user-content-todomodeljs" href="#todomodeljs" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>todoModel.js</h2>
+<blockquote>
+<p><strong>Model层，模式：事件订阅通知</strong><br />
+<pre><code>    app.TodoModel = function (key) {
+        this.key = key;
+        this.todos = Utils.store(key);
+        this.onChanges = [];
+    };
+</code></pre><br />
+key: 用户输入数据<br />
+todos: 所有数据的集合<br />
+onChanges: app中事件的集合，如 <font color="#00008B">app.jsx -&gt; model.subscribe(render)</font>订阅渲染</p>
+<p><pre><code>    app.TodoModel.prototype.subscribe = function (onChange) {
+        this.onChanges.push(onChange);
+    };
+</code></pre><br />
+subscribe: app中事件订阅</p>
+<p><pre><code>    app.TodoModel.prototype.inform = function () {
+        Utils.store(this.key, this.todos);
+        this.onChanges.forEach(function (cb) { cb(); });
+    };
+</code></pre><br />
+inform: 消息发布；消息是app中出现的每一个改变；所有数据重新存储；所有事件执行一遍</p>
+<p><pre><code>    app.TodoModel.prototype.addTodo = function (title) {
+        this.todos = this.todos.concat({
+            id: Utils.uuid(),
+            title: title,
+            completed: false
+        });
+        this.inform();
+    };
+</code></pre><br />
+</p>
 </blockquote>
 <h2 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>从用户操作来看</h2>
 <blockquote>

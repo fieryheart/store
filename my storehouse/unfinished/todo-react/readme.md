@@ -36,7 +36,63 @@
             return (store && JSON.parse(store)) || [];
         },
 ```
->本地存储
+>本地存储，store为一个数组
+>
+><strong>4. app.Utils.extend</strong>
+```
+        extend: function () {
+            var newObj = {};
+            for (var i = 0; i < arguments.length; i++) {
+                var obj = arguments[i];
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        newObj[key] = obj[key];
+                    }
+                }
+            }
+            return newObj;
+        }
+```
+>将多个对象合成一个新的对象
+##todoModel.js
+><strong>Model层，模式：事件订阅通知</strong>
+```
+    app.TodoModel = function (key) {
+        this.key = key;
+        this.todos = Utils.store(key);
+        this.onChanges = [];
+    };
+```
+>key: 用户输入数据
+>todos: 所有数据的集合
+>onChanges: app中事件的集合，如 <font color="#00008B">app.jsx -> model.subscribe(render)</font>订阅渲染
+>
+```
+    app.TodoModel.prototype.subscribe = function (onChange) {
+        this.onChanges.push(onChange);
+    };
+```
+>subscribe: app中事件订阅
+>
+```
+    app.TodoModel.prototype.inform = function () {
+        Utils.store(this.key, this.todos);
+        this.onChanges.forEach(function (cb) { cb(); });
+    };
+```
+>inform: 消息发布；消息是app中出现的每一个改变；所有数据重新存储；所有事件执行一遍
+>
+```
+    app.TodoModel.prototype.addTodo = function (title) {
+        this.todos = this.todos.concat({
+            id: Utils.uuid(),
+            title: title,
+            completed: false
+        });
+        this.inform();
+    };
+```
+>
 
 ##从用户操作来看
 > <strong>1.用户在 &lt;header&gt; -> &lt;input&gt; 中输入值(value)</strong>
