@@ -56,7 +56,7 @@ function judgeMinus(x, y) {
 	}
 }
 
-//大整数相加
+
 function init(x , y) {
 	let num_x = bigNumTrans( x );
 	let num_y = bigNumTrans( y );
@@ -75,6 +75,7 @@ function init(x , y) {
 	}
 }
 
+// 整数相加
 function bigNumAdd(x , y , minus) {
 	let carry = 0;
 	let bigLen = x.length > y.length ? x.length : y.length;
@@ -104,6 +105,7 @@ function bigNumAdd(x , y , minus) {
 	return rst;
 }
 
+// 整数相减
 function bigNumSub(x, y) {
 	let borrow = 0;
 	let bigNum;
@@ -162,4 +164,36 @@ function bigNumSub(x, y) {
 
 	rst = new BigNum(sub_num.join("") , minus);
 	return rst;
+}
+
+// 整数相乘
+function numMultiply(x, y) {
+	var mul_num = [];
+	var fst_num = [];
+	var fst_carry = 0;
+	var scd_carry = 0;
+	var minus = 1;
+	var rst;
+
+
+	for(let i = 0 ; i < x.length ; i++){
+		fst_num = [];
+		for(let j = 0 ; j < y.length ; j++){
+			mul_num[i+j]
+		}
+		mul_num[i] = ( x.number[i] * y.number[i] + carry ) % 10;
+		carry = Math.floor(( x.number[i] * y.number[i] + carry) / 10);
+	}
+
+	if(x.minus * y.minus == -1){
+		minus = -1;
+	}
+
+	rst = new BigNum(mul_num.join("") , minus);
+	return rst;
+}
+
+// 整数相除
+function numDivision(x, y){
+
 }
