@@ -17,7 +17,8 @@ class AppleItem extends React.Component {
 		};
 
 		let mockActions = {
-			eatApple : id =>console.log('eatApple', id)
+			eatApple : id =>console.log('eatApple', id);
+			foo: (arg1, arg2) => console.log('foo', arg1, arg2);
 		};
 
 		state = mockState; 

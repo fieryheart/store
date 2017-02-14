@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AppleItem from '../component/AppleItem';
+import actions from '../actions/appleActions';
 
 class AppleBasket extends React.Component {
 
 	render(){
 
-		let { state } = this.props;
+		let { state , dispatch } = this.props;
 
 		let mockState = {
 			isPicking : false,
@@ -61,11 +62,17 @@ class AppleBasket extends React.Component {
 				</div>
 
 				<div className="appleList">
-					{ state.apples.map(apple => <AppleItem state={apple} />) }
+					{ state.apples.map(apple => 
+						<AppleItem 
+							state={apple}
+							actions={ {eatApple: id => dispatch(actions.eatApple(id))}}
+							key={apple.id} 
+						/>
+					) }
 				</div>
 
 				<div className="btn-div">
-					<button>摘苹果</button>
+					<button onClick={() => dispatch(actions.pickApple())}>摘苹果</button>
 				</div>
 			</div>
 		);
