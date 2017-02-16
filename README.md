@@ -1,2 +1,2 @@
-# teaching
-It's my teaching way!
+# Programming
+It's my programming way!
