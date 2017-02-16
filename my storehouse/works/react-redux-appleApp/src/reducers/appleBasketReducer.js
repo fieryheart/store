@@ -15,26 +15,35 @@
 
 export default (state = {
 	isPicking: false,
-	newAppleId: 1,
+	newAppleId: 3,
 	apples: [
 		{
 			id: 0,
 			weight: 235,
 			isEaten: false
-		}
+		},
+	        	{
+	        	    	id: 1,
+	        	    	weight: 235,
+	        	    	isEaten: false
+	        	},
+	        	{
+	        	    	id: 2,
+	        	    	weight: 256,
+	        	   	isEaten: false
+	        	}
 	]
 }, action) => {
 	let newState;
 
 	switch (action.type) {
-		switch (action.type) {
 			case 'apple/BEGIN_PICK_APPLE':
 				newState = Object.assign({}, state, {
 					isPicking: true
 				});
 				return newState;
 
-			case: 'apple/DONE_PICK_APPLE':
+			case 'apple/DONE_PICK_APPLE':
 				newState = Object.assign({}, state, {
 					apples: [
 						...state.apples,
@@ -49,7 +58,7 @@ export default (state = {
 				})
 				return newState;
 
-			case: 'apple/FAIL_PICK_APPLE':
+			case 'apple/FAIL_PICK_APPLE':
 				newState = Object.assign({}, state, {
 					isPicking: false
 				});
@@ -62,11 +71,10 @@ export default (state = {
 						Object.assign({}, state.apples[action.payload], { isEaten: true}),
 						...state.apples.slice(action.payload + 1)
 					]
-				})
+				});
 				return newState;
 
 			default:
 				return state;
-		}
 	}
 }

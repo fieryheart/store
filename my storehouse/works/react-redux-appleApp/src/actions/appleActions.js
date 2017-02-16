@@ -1,30 +1,32 @@
-import ajax from '../services/ajax';
+// import ajax from '../services/ajax';
 
-const prefix = 'apple/';
+// const prefix = 'apple/';
 
 let actions = {
-	pickApple: () => (dispatch, getState) => {
+		pickApple: () => (dispatch, getState) => {
 
-		if(getState().isPicking)
-			return;
+			if(getState().isPicking)
+				return;
 
-		dispatch(actions.beginPickApple());
+			dispatch(actions.beginPickApple());
 
-		ajax({
-			url: '/appleBasket/pickApple',
-			method: 'GET'
-		}).done(data => {
-			dispatch(actions.donePickApple(data.weight))
-		})
-		.fail(xht => {
-			dispatch(actions.failPickApple(xhr.responseText));
-		}),
+			fetch('https://hacker-news.firebaseio.com/v0/jobstories.json')
+				.then(res => {
+					if(res.status != 200) dispatch(actions.failPickApple(res.statusText));
+
+					let weight = Math.floor(200 + Math.random() * 50);
+					dispatch(actions.donePickApple(weight));
+
+				}).catch(e => {
+					dispatch(actions.failPickApple(e.statusText));
+				})
+		},
 
 		beginPickApple: () => ({
 			type: 'apple/BEGIN_PICK_APPLE'
 		}),
 
-		donPickApple: appleWeight => ({
+		donePickApple: appleWeight => ({
 			type: 'apple/DONE_PICK_APPLE',
 			payload: appleWeight
 		}),
@@ -39,8 +41,8 @@ let actions = {
 			type: 'apple/EAT_APPLE',
 			payload: appleId
 		})
-	}
-}
+	};
+
 
 export default actions;
 
@@ -66,4 +68,4 @@ export default actions;
 	}
 
 	dispatch( pickAppleAction )
-*/ 
+*/
