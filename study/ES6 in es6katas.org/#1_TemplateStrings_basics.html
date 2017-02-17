@@ -1025,44 +1025,42 @@ body .markdown-body
 str === 'template strings';    // true
 </code></pre></p>
 <h3 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>与传统的字符串不同点</h3>
-<ul>
-<li>在内部进行使用外部变量并进行运算（需要使用<code>${}</code>）</li>
-</ul>
-<h5 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>外部变量</h5>
+<h4 id="_4"><a name="user-content-_4" href="#_4" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>在内部进行使用外部变量并进行运算（需要使用<code>${}</code>）</h4>
+<p>外部变量<br />
 <pre><code>    var x = 'template strings';
     var str = `${x}`;
     str === 'template strings';      // true 
-</code></pre>
-
-<h5 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>内部运算</h5>
+</code></pre><br />
+内部运算<br />
 <pre><code>    `${1 + 2}` === '3'      // true
-</code></pre>
-
-<h5 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>外部变量，内部运算</h5>
+</code></pre><br />
+外部变量，内部运算<br />
 <pre><code>    var x = 'template ';
     var y = 'strings';
     var str = `${x + y}`
     str === 'template strings';      // true
+</code></pre></p>
+<h4 id="_5"><a name="user-content-_5" href="#_5" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>执行函数</h4>
+<pre><code>    var addOne = (x) =&gt; x+1;
+    `${addOne(1)}` === '2';         // true
 </code></pre>
 
-<h5 id="_7"><a name="user-content-_7" href="#_7" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>执行函数</h5>
-<p><pre><code>    var addOne = (x) =&gt; x+1;
-    `${addOne(1)}` === '2';         // true
-</code></pre><br />
-<em> 允许换行<br />
+<h4 id="_6"><a name="user-content-_6" href="#_6" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>允许换行</h4>
 <pre><code>    var str = 'template
 strings';        // Uncaught SyntaxError
     var Tstr = `template
 strings`;        // undefined
     Tstr === 'template\nstrings'         // true
-</code></pre><br />
-</em> 标签模板（tagged template），和函数名配合使用<br />
+</code></pre>
+
+<h4 id="tagged-template"><a name="user-content-tagged-template" href="#tagged-template" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>标签模板（tagged template），和函数名配合使用</h4>
+<p>1、使用时，在函数内部自动将模板转换成一个数组，数组形式如下。<br />
 <pre><code>    var tagFunctionToString = strings =&gt; console.log(strings.toString());
     var tagFunction = strings =&gt; console.log(strings);
     tagFunctionToString`template strings`;       // template string
     tagFunction`template strings`;       // [&quot;template string&quot;, raw: Array[1]]
 </code></pre><br />
-使用时，在函数内部自动将模板转换成一个数组，数组形式如上。<br />
+2、函数的参数，第一个是模板字符串本身，后面的是模板字符串中的变量<code>${}</code><br />
 <pre><code>    function tagFunction(templateStringsArray, ...allValues){
         return allValues;
     }
@@ -1071,4 +1069,15 @@ strings`;        // undefined
           three = 'three';
     tagFunction`${one} + ${two} + ${three}`         // [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
 </code></pre><br />
-函数的参数，第一个是模板字符串本身，后面的是模板字符串中的变量<code>${}</code></p></article></body></html>
+3、<code>raw</code>属性 与 <code>String.raw</code><br />
+<pre><code>    var tagFunction = strings =&gt; console.log(strings);
+    tagFunction`template strings`;       // [&quot;template string&quot;, raw: Array[1]]
+</code></pre><br />
+raw属性是一个存有字符串的数组，字符串不会对转义字符进行转义<br />
+<pre><code>    var firstChar = strings =&gt; strings.raw;
+    firstChar`\n`;          // [&quot;\n&quot;]
+</code></pre><br />
+<code>String.raw</code>是一个静态函数<br />
+<pre><code>    String.raw`\\n`;        // &quot;\\n&quot;
+</code></pre><br />
+注意与firstChar取到的值的类型不同</p></article></body></html>
