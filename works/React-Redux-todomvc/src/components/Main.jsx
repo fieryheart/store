@@ -10,10 +10,10 @@ class Main extends React.Component {
 		
 		const {state, dispatch} = this.props;
 
-		const size = state.willTodos + state.didTodos
-		if (size === 0) {
-			return null;
-		}
+		const size = state.willTodos + state.didTodos;
+		// if (size === 0) {
+		// 	return null;
+		// }
 
 		const areAllComplete = state.todos.every(todo => todo.complete);
 

@@ -11,21 +11,24 @@ class NewTodo extends React.Component {
 		let {state, dispatch} = this.props;
 	
 		const addTodo = (text) => dispatch(Actions.addTodo(text));
-		const onBlur = () => addTodo();
-		const onChange = (event) => dispatch(Actions.upDateDraft(event.target.value));
+		// const onBlur = (text) => addTodo();
+		const onChange = (event) => dispatch(Actions.upDateDraft( event.target.value) );
 		const onKeyDown = (event) => {
 			if(event.keyCode === ENTER_KEY_CODE) {
-				addTodo(state.text);
+				addTodo(state.TodoDraft.text);
+				console.log('enter');
 			}
 		}
+		
+
 
 		return (
 			<input
 			    autoFocus={true}
 			    id="new-todo"
 			    placeholder="What needs to be done?"
-			    value={state.text}
-			    onBlur={onBlur}
+			    value={state.TodoDraft.text}
+
 			    onChange={onChange}
 			    onKeyDown={onKeyDown}
 			/>
@@ -36,7 +39,7 @@ class NewTodo extends React.Component {
 }
 
 const select = state => ({
-	state: state.Todo
+	state: state
 })
 
 export default connect(select)(NewTodo);

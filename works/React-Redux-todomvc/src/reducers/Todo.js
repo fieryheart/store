@@ -8,12 +8,10 @@
 //   text: '',
 // });
 
-class Todo {
+export default  class Todo {
   constructor(id, complete, text){
     this.id = id;
     this.complete = complete;
     this.text = text;
   }
 }
-
-export default Todo;

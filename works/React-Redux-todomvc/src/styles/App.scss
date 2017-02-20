@@ -1,5 +1,4 @@
-html,
-body {
+html,body {
   margin: 0;
   padding: 0;
 }
@@ -47,7 +46,34 @@ input[type="checkbox"] {
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
-        0 25px 50px 0 rgba(0, 0, 0, 0.15);
+    0 25px 50px 0 rgba(0, 0, 0, 0.15);
+
+      input::-webkit-input-placeholder {
+        font-style: italic;
+      }
+
+      input::-webkit-input-placeholder {
+        font-style: italic;
+      }
+
+      h1 {
+        position: absolute;
+        top: -120px;
+        width: 100%;
+        font-size: 70px;
+        font-weight: bold;
+        text-align: center;
+        color: #b3b3b3;
+        color: rgba(255, 255, 255, 0.3);
+        text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+        -webkit-text-rendering: optimizeLegibility;
+        -moz-text-rendering: optimizeLegibility;
+        -ms-text-rendering: optimizeLegibility;
+        -o-text-rendering: optimizeLegibility;
+        text-rendering: optimizeLegibility;
+      }
+
+
 }
 
 #todoapp:before {
@@ -61,31 +87,31 @@ input[type="checkbox"] {
   height: 100%;
 }
 
-#todoapp input::-webkit-input-placeholder {
-  font-style: italic;
-}
+// #todoapp input::-webkit-input-placeholder {
+//   font-style: italic;
+// }
 
-#todoapp input::-moz-placeholder {
-  font-style: italic;
-  color: #a9a9a9;
-}
+// #todoapp input::-moz-placeholder {
+//   font-style: italic;
+//   color: #a9a9a9;
+// }
 
-#todoapp h1 {
-  position: absolute;
-  top: -120px;
-  width: 100%;
-  font-size: 70px;
-  font-weight: bold;
-  text-align: center;
-  color: #b3b3b3;
-  color: rgba(255, 255, 255, 0.3);
-  text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
-  -webkit-text-rendering: optimizeLegibility;
-  -moz-text-rendering: optimizeLegibility;
-  -ms-text-rendering: optimizeLegibility;
-  -o-text-rendering: optimizeLegibility;
-  text-rendering: optimizeLegibility;
-}
+// #todoapp h1 {
+//   position: absolute;
+//   top: -120px;
+//   width: 100%;
+//   font-size: 70px;
+//   font-weight: bold;
+//   text-align: center;
+//   color: #b3b3b3;
+//   color: rgba(255, 255, 255, 0.3);
+//   text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+//   -webkit-text-rendering: optimizeLegibility;
+//   -moz-text-rendering: optimizeLegibility;
+//   -ms-text-rendering: optimizeLegibility;
+//   -o-text-rendering: optimizeLegibility;
+//   text-rendering: optimizeLegibility;
+// }
 
 #header {
   padding-top: 15px;
@@ -110,8 +136,7 @@ input[type="checkbox"] {
   border-top-right-radius: 1px;
 }
 
-#new-todo,
-.edit {
+#new-todo, .edit {
   position: relative;
   margin: 0;
   width: 100%;
