@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 import Actions from '../actions/TodoActions';
 
 class Footer extends React.Component {
 
 	render() {
 
-		const {state, dispatch} = this.props;
+		const {state, Actions} = this.props;
 
 		const size = state.willTodos + state.didTodos
 		if (size === 0) {
@@ -23,7 +23,7 @@ class Footer extends React.Component {
 			clearCompletedButton = (
 				<button
 				      id="clear-completed"
-				      onClick={() => dispatch(Actions.deleteCompletedTodos())}>
+				      onClick={Actions.deleteCompletedTodos}>
 				     Clear completed ({completed})
 				</button>);
 
@@ -48,4 +48,8 @@ const select = state => ({
 	state: state.Todo
 })
 
-export default connect(select)(Footer);
+const buildActionDispatcher = dispatch => ({
+	Actions: bindActionCreators(Actions, dispatch)
+})
+
+export default connect(select, buildActionDispatcher)(Footer);

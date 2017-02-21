@@ -1,112 +1,136 @@
 import Counter from './Counter';
-
+import { fromJS } from 'immutable';
 
 const initailState = {
-  text: 'abc',
-  editing: '1',
+  text: '',
+  editing: '',
   didTodos: 0,
   willTodos: 0,
-  todos: [{
-    id: 0,
-    complete: false,
-    text: 'hello world'
-  }]
+  todos: []
 }
 
 export default (state = initailState, Actions) => {
   let newState={},
        index=null,
-       text='',
-       todo={};
+       willTodos = state.willTodos,
+       didTodos = state.didTodos;
 
   switch (Actions.type) {
 
         case 'todo/ADD_TODO':
-                  if(!Actions.preload){
+                  if(!Actions.payload){
                         return state;
                   }
                   const id = Counter.increment();
-                  newState = Object.assign({}, state, {
-                              todos: state.todos.push({
-                              id: id,
-                              complete:false,
-                              text: Actions.preload
-                        }),
-                        willTodos: state.willTodos++
-                  })
-                  console.log("TodoItem");
-                  return newState;
+                  let newTodo = {
+                      id: id,
+                      complete: false,
+                      text: Actions.payload
+                  };
+                  return fromJS(state).update('todos', list => list.push(newTodo))
+                                        .set('willTodos', state.willTodos + 1)
+                                        .toJS();
 
         case 'todo/DELETE_COMPLETED_TODOS':
+                  let i = 1;
                   newState = Object.assign({}, state, {
                               todos: state.todos.filter(todo => !todo.complete),
                               didTodos: 0
                         })
+                  newState.todos.map(todo => todo.id = i++);
+                  Counter.assign(i);
                   return newState;
+
+                  // let newState = fromJS(state).update('todos', list => list.filter(todo => !todo.complete))
+                  //                                             .update('todos', list => list.map(todo => todo.set('id', i++)))
+                  //                                             .set('didTodos', 0)
+                  //                                             .toJS();
+                  // Counter.assign(i);
+                  // console.log(newState);
+                  // return newState;
 
       case 'todo/DELETE_TODO':
-                  index = Actions.preload;
-                  if(state.todos[index - 1]){
-                        newState = Object.assign({}, state, {
-                              todos: state.todos.filter(todo => todo.id != index),
-                              didTodos: state.didTodos - 1
-                  })
-                  }else{
-                        newState = Object.assign({}, state, {
-                        todos: state.todos.filter(todo => todo.id != index),
-                        willTodos: state.willTodos - 1
-                        })
-                  }
-                  return newState;
+                    index = Actions.payload;
+                    Counter.subtracter();
+                    if(state.todos[Actions.payload - 1].complete){
+                          newState = Object.assign({}, state, {
+                                todos: state.todos.filter(todo => todo.id != index),
+                                didTodos: didTodos - 1
+                    })
+                            // return fromJS(state).update('todos', list => list.filter(todo => todo.id != Actions.payload))
+                            //                                 .set('didTodos', state.didTodos - 1)
+                            //                                 .toJS();
+                    }else{
+                            newState = Object.assign({}, state, {
+                            todos: state.todos.filter(todo => todo.id != index),
+                            willTodos: willTodos - 1
+                            })
+                            // return fromJS(state).update('todos', list => list.filter(todo => todo.id != Actions.payload))
+                            //                                 .set('willTodos', state.willTodos - 1)
+                            //                                 .toJS();
+                    }
+                    return newState;
 
       case 'todo/EDIT_TODO':
-            index = Actions.preload.id;
-            text = Actions.preload.text;
-            newState = Object.assign({}, state, {
-                  todos: [
-                        ...state.todos.slice(0, index-1),
-                        Object.assign({}, state.todos[index-1], {text}),
-                        ...state.todos.slice(index)
-                  ]
-            })
-            return newState;
+            // index = Actions.payload.id;
+            // text = Actions.payload.text;
+            // newState = Object.assign({}, state, {
+            //       todos: [
+            //             ...state.todos.slice(0, index-1),
+            //             Object.assign({}, state.todos[index-1], {text}),
+            //             ...state.todos.slice(index)
+            //       ]
+            // })
+            // return newState;
+
+            return fromJS(state).setIn(['todos', Actions.payload.id-1, 'text'], Actions.payload.text).toJS();
 
       case 'todo/START_EDITING_TODO':
-            newState = Object.assign({}, state, {
-                  editing: Actions.preload
-            })
-            return newState;
+            // newState = Object.assign({}, state, {
+            //       editing: Actions.payload
+            // })
+            // return newState;
+            return fromJS(state).set('editing', Actions.payload).toJS();
 
       case 'todo/STOP_EDITING_TODO':
-            newState = Object.assign({}, state, {
-                  editing: ''
-            })
-            return newState;
+            // newState = Object.assign({}, state, {
+            //       editing: ''
+            // })
+            // return newState;
+
+            return fromJS(state).set('editing', '').toJS();
 
       case 'todo/TOGGLE_ALL_TODOS':
             const areAllComplete = state.todos.every(todo => todo.complete);
-            newState = Object.assign({}, state, {
-                  todos: state.todos.map(todo => {
-                        todo.complete = !areAllComplete;
-                  })
-            });
-            return newState;
+            // newState = Object.assign({}, state, {
+            //       todos: state.todos.map(function(todo){
+            //             todo.complete = !areAllComplete;
+            //             return todo;
+            //       })
+            // });
+            // return newState;
+
+            return fromJS(state).update('todos', list => list.map(todo => todo.set('complete', !areAllComplete)))
+                                            .set('didTodos', state.didTodos+state.willTodos)
+                                            .set('willTodos', 0)
+                                            .toJS();
 
       case 'todo/TOGGLE_TODO':
-            index = Actions.preload;
-            todo = state.todos[index-1];
-            newState = Object.assign({}, state, {
-                  todos: [
-                        ...state.todos.slice(0, index-1),
-                        Object.assign({}, todo, {'complete': !todo.complete}),
-                        ...state.todos.slice(index)
-                  ]
-            });
-            return newState;
-      
-      case 'todo/UPDATE_DRAFT':
-            console.log('todo/UPDATE_DRAFT');
-            return state;
+            // index = Actions.payload;
+            // todo = state.todos[index-1];
+            // newState = Object.assign({}, state, {
+            //       todos: [
+            //             ...state.todos.slice(0, index-1),
+            //             Object.assign({}, todo, {'complete': !todo.complete}),
+            //             ...state.todos.slice(index)
+            //       ]
+            // });
+            // return newState;
+            let complete = !state.todos[Actions.payload-1].complete;
+            return fromJS(state).setIn(['todos', Actions.payload-1, 'complete'], complete)
+                                            .set('willTodos', state.willTodos - 1)
+                                            .set('didTodos', state.didTodos + 1)
+                                            .toJS();
 
       default:
             return state;

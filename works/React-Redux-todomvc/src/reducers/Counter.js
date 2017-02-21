@@ -4,7 +4,13 @@ let _counter = 1;
 
 const Counter = {
   increment() {
-    return 'id-' + String(_counter++);
+    return _counter++;
+  },
+  subtracter() {
+    _counter--;
+  },
+  assign(counter) {
+    _counter = counter;
   }
 };
 

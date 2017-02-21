@@ -38,7 +38,7 @@ const Actions = {
     payload: id
   }),
 
-  upDateDraft: (text) => ({
+  updateDraft: (text) => ({
     type: 'todo/UPDATE_DRAFT',
     payload: text
   })

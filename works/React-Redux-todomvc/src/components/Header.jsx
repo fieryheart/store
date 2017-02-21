@@ -8,7 +8,7 @@ class Header extends React.Component {
 
 		return (
 			<header id="header">
-				<h1>todos</h1>
+				<h1>fieryheart-todos</h1>
 				<NewTodo />
 			</header>
 		);

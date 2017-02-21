@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 import Actions from '../actions/TodoActions';
 
 const ENTER_KEY_CODE = 13;
@@ -8,18 +8,21 @@ const ENTER_KEY_CODE = 13;
 class NewTodo extends React.Component {
 	
 	render() {
-		let {state, dispatch} = this.props;
-	
-		const addTodo = (text) => dispatch(Actions.addTodo(text));
+		let {state, Actions} = this.props;
+		let {text} = state;
+		const addTodo = Actions.addTodo;
 		// const onBlur = (text) => addTodo();
-		const onChange = (event) => dispatch(Actions.upDateDraft( event.target.value) );
+		const updateDraft = Actions.updateDraft;
+		const onChange = (event) => {
+			updateDraft(event.target.value);
+		};
 		const onKeyDown = (event) => {
+
 			if(event.keyCode === ENTER_KEY_CODE) {
-				addTodo(state.TodoDraft.text);
-				console.log('enter');
+
+				addTodo(text);
 			}
 		}
-		
 
 
 		return (
@@ -27,7 +30,7 @@ class NewTodo extends React.Component {
 			    autoFocus={true}
 			    id="new-todo"
 			    placeholder="What needs to be done?"
-			    value={state.TodoDraft.text}
+			    value={text}
 
 			    onChange={onChange}
 			    onKeyDown={onKeyDown}
@@ -39,7 +42,11 @@ class NewTodo extends React.Component {
 }
 
 const select = state => ({
-	state: state
+	state: state.TodoDraft
 })
 
-export default connect(select)(NewTodo);
+const buildActionDispatcher = dispatch => ({
+	Actions: bindActionCreators(Actions, dispatch)
+})
+
+export default connect(select, buildActionDispatcher)(NewTodo);

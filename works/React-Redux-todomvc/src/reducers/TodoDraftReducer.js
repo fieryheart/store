@@ -1,17 +1,17 @@
 'use strict';
 
+import  { fromJS } from 'immutable';
+
 export default (state = {
-	text: ' '
+	text: ''
 }, Actions) => {
+
 	switch(Actions.type){
+		
 		case 'todo/ADD_TODO':
-			return Object.assign({}, state, {
-				text: ''
-			});
+			return fromJS(state).setIn(['text'], '').toJS();
 		case 'todo/UPDATE_DRAFT':
-			return Object.assign({}, state, {
-				text: Actions.preload
-			});
+			return fromJS(state).setIn(['text'], Actions.payload).toJS();
 		default:
 			return state;
 	}
