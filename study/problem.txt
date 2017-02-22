@@ -9,6 +9,11 @@
 
 4、简述前端领域的Flux构架思想
 
+	Actions：帮助向Dispatcher传递数据的辅助方法；
+	Dispatcher：接收action，并且向注册的回调函数广播payloads；
+	Stores：应用程序状态的容器&并且含有注册到Dispatcher的回调函数；
+	Controller Views：React组件，从Store获取状态，并将其逐级向下传递给子组件。
+
 5、简述JSONP的原理
 
 6、请使用原生js写一个具有兼容性的时间绑定函数
