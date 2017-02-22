@@ -10,6 +10,7 @@ const initailState = {
 }
 
 export default (state = initailState, Actions) => {
+  
   let newState={},
        index=null,
        willTodos = state.willTodos,
@@ -41,91 +42,40 @@ export default (state = initailState, Actions) => {
                   Counter.assign(i);
                   return newState;
 
-                  // let newState = fromJS(state).update('todos', list => list.filter(todo => !todo.complete))
-                  //                                             .update('todos', list => list.map(todo => todo.set('id', i++)))
-                  //                                             .set('didTodos', 0)
-                  //                                             .toJS();
-                  // Counter.assign(i);
-                  // console.log(newState);
-                  // return newState;
-
       case 'todo/DELETE_TODO':
                     index = Actions.payload;
                     Counter.subtracter();
                     if(state.todos[Actions.payload - 1].complete){
-                          newState = Object.assign({}, state, {
-                                todos: state.todos.filter(todo => todo.id != index),
-                                didTodos: didTodos - 1
-                    })
-                            // return fromJS(state).update('todos', list => list.filter(todo => todo.id != Actions.payload))
-                            //                                 .set('didTodos', state.didTodos - 1)
-                            //                                 .toJS();
+                              newState = Object.assign({}, state, {
+                                  todos: state.todos.filter(todo => todo.id != index),
+                                  didTodos: didTodos - 1
+                              })
                     }else{
-                            newState = Object.assign({}, state, {
-                            todos: state.todos.filter(todo => todo.id != index),
-                            willTodos: willTodos - 1
-                            })
-                            // return fromJS(state).update('todos', list => list.filter(todo => todo.id != Actions.payload))
-                            //                                 .set('willTodos', state.willTodos - 1)
-                            //                                 .toJS();
+                              newState = Object.assign({}, state, {
+                                  todos: state.todos.filter(todo => todo.id != index),
+                                  willTodos: willTodos - 1
+                              })
+
                     }
                     return newState;
 
       case 'todo/EDIT_TODO':
-            // index = Actions.payload.id;
-            // text = Actions.payload.text;
-            // newState = Object.assign({}, state, {
-            //       todos: [
-            //             ...state.todos.slice(0, index-1),
-            //             Object.assign({}, state.todos[index-1], {text}),
-            //             ...state.todos.slice(index)
-            //       ]
-            // })
-            // return newState;
-
             return fromJS(state).setIn(['todos', Actions.payload.id-1, 'text'], Actions.payload.text).toJS();
 
       case 'todo/START_EDITING_TODO':
-            // newState = Object.assign({}, state, {
-            //       editing: Actions.payload
-            // })
-            // return newState;
             return fromJS(state).set('editing', Actions.payload).toJS();
 
       case 'todo/STOP_EDITING_TODO':
-            // newState = Object.assign({}, state, {
-            //       editing: ''
-            // })
-            // return newState;
-
             return fromJS(state).set('editing', '').toJS();
 
       case 'todo/TOGGLE_ALL_TODOS':
             const areAllComplete = state.todos.every(todo => todo.complete);
-            // newState = Object.assign({}, state, {
-            //       todos: state.todos.map(function(todo){
-            //             todo.complete = !areAllComplete;
-            //             return todo;
-            //       })
-            // });
-            // return newState;
-
             return fromJS(state).update('todos', list => list.map(todo => todo.set('complete', !areAllComplete)))
                                             .set('didTodos', state.didTodos+state.willTodos)
                                             .set('willTodos', 0)
                                             .toJS();
 
       case 'todo/TOGGLE_TODO':
-            // index = Actions.payload;
-            // todo = state.todos[index-1];
-            // newState = Object.assign({}, state, {
-            //       todos: [
-            //             ...state.todos.slice(0, index-1),
-            //             Object.assign({}, todo, {'complete': !todo.complete}),
-            //             ...state.todos.slice(index)
-            //       ]
-            // });
-            // return newState;
             let complete = !state.todos[Actions.payload-1].complete;
             return fromJS(state).setIn(['todos', Actions.payload-1, 'complete'], complete)
                                             .set('willTodos', state.willTodos - 1)
