@@ -13,12 +13,12 @@ function NumberObject( string , sign ) {
 
 	if( sign === -1){
 
-		this.number = string.slice(1).split('').reverse().join('');
+		this.number = reverseString( string.slice(1) );
 		this.length = string.length - 1;
 	}	
 	else if ( sign === 1){
 
-		this.number = string.split('').reverse().join('');
+		this.number = reverseString( string );
 		this.length = string.length;
 		// console.log("NumberObject : ", this.number);
 
@@ -99,7 +99,7 @@ function addFrontZero( string , length ){
 	return string;
 }
 
-// 去零 (传入字符串，传出数组)
+// 去零 (传入字符串，传出字符串)
 function deleteFrontZero( string ){
 	
 	let arr = string.split('');
@@ -117,13 +117,19 @@ function deleteFrontZero( string ){
 	return arr.join('');
 }
 
+// 字符串颠倒
+function reverseString(string){
+	return string.split('').reverse().join('');
+}
+
+
 // 加法
 function add( first , second ) {
 
 	
 	let rst = [];
 
-	rst = addString( first , second , length );
+	rst = addString( first.number , second.number ).split('');
 
 
 	if(first.sign === -1){
@@ -134,7 +140,7 @@ function add( first , second ) {
 	
 }
 
-
+// 传入字符串，传出字符串
 function addString( first, second ) {
 
 	let carry = 0,
@@ -176,9 +182,10 @@ function addString( first, second ) {
 		carry = Math.floor( carry );
 	}
 	
-	console.log("addString : ", rst.join(''));
-	return rst;
+	
+	return rst.join('');
 }
+
 
 
 
@@ -186,11 +193,9 @@ function addString( first, second ) {
 // 减法
 function subtract(  first , second ) {
 
-	let borrow = 0,
-	     rst = [], 
+	let rst = [], 
 	     minuend,
-	     subtrahend;
-	let length = first.length > second.length ? first.length : second.length;
+	     subtrahend;	
 
 	// 被减数和减数相同
 	if(first.number === second.number){
@@ -212,27 +217,8 @@ function subtract(  first , second ) {
 		}
 	}
 
-	for(let i = 0 ; i < length ; i++){
-		if( (minuend.number[i] - 0) - borrow > (subtrahend.number[i] - 0)){
-
-			rst[i] = ( (minuend.number[i] - 0) - (subtrahend.number[i] - 0) - borrow) % 10;
-			borrow = 0;
-			
-
-		}else if( (minuend.number[i] - 0) - borrow < (subtrahend[i] - 0)){
-
-			rst[i] = ((minuend[i] - 0) - (subtrahend[i] - 0) - borrow + 10) % 10;
-			borrow = 1;
-			
-		}else{
-
-			rst[i] = 0;
-			
-		}
-	}
-
-	// 去零
-	rst = deleteFrontZero( rst );
+	
+	rst = subtractString(minuend.number , subtrahend.number).split('');
 	
 	// 结果取负号
 	if( (first.sign === 1 && first.number !== minuend.number) || (first.sign === -1 && first.number === minuend.number) ){
@@ -247,6 +233,36 @@ function subtract(  first , second ) {
 
 }
 
+// 传入字符串， 传出字符串
+function subtractString( first , second ) {
+	
+	let borrow = 0;
+	let length = first.length > second.length ? first.length : second.length;
+	let rst = [];
+
+	for(let i = 0 ; i < length ; i++){
+		if( (first[i] - 0) - borrow > (second[i] - 0)){
+
+			rst[i] = ( (first[i] - 0) - (second[i] - 0) - borrow) % 10;
+			borrow = 0;
+			
+
+		}else if( (first[i] - 0) - borrow < (second[i] - 0)){
+
+			rst[i] = ((first[i] - 0) - (second[i] - 0) - borrow + 10) % 10;
+			borrow = 1;
+
+		}else{
+
+			rst[i] = 0;
+
+		}
+	}
+
+	// 去零
+	return deleteFrontZero( rst.join('') );
+}
+
 
 
 function multiply( first , second ) {
@@ -257,20 +273,13 @@ function multiply( first , second ) {
 	
 	// console.log("firstNumber : ", typeof firstNumber);
 
-	let rst = pieceOfMultiplication( firstNumber , secondNumber );
+	let rst = pieceOfMultiplication( firstNumber , secondNumber ).split('');
 
 	if(first.sign * second.sign === -1){
 		rst.push('-');
 	}
 
 	return new numberAnalysis( rst );
-
-}
-
-function PieceNumber( number , length ){
-
-	this.length = length;
-	this.number = number;
 
 }
 
@@ -302,36 +311,36 @@ function pieceOfMultiplication( first, second ) {
 		
 		// 分解
 		let leftRst = pieceOfMultiplication( firstLeft , secondLeft );
-		let centerRst = addString( pieceOfMultiplication( firstLeft , secondRight ) , pieceOfMultiplication( firstRight , secondLeft ) ).join('');
+		let centerRst = addString( pieceOfMultiplication( firstLeft , secondRight ) , pieceOfMultiplication( firstRight , secondLeft ) );
 		let rightRst = pieceOfMultiplication( firstRight , secondRight );
 
 		leftRst = deleteFrontZero(String(leftRst));
 		centerRst = deleteFrontZero(String(centerRst));
 		rightRst = deleteFrontZero(String(rightRst));
-		console.log();
-		console.log("leftRst : ", leftRst);
-		console.log("centerRst : ", centerRst);
-		console.log("rightRst : ", rightRst);
+
+		// console.log("leftRst : ", leftRst);
+		// console.log("centerRst : ", centerRst);
+		// console.log("rightRst : ", rightRst);
 		// 重组
 		
 		let left = leftRst.slice(0, half);
 		let leftCarry = leftRst.slice(half);
-		console.log("left : ", left);
-		console.log("leftCarry : ", leftCarry);
+		// console.log("left : ", left);
+		// console.log("leftCarry : ", leftCarry);
 
-		centerRst = addString(centerRst , leftCarry).join('');
-		console.log("centerRst : ", centerRst);
+		centerRst = addString(centerRst , leftCarry);
+		// console.log("centerRst : ", centerRst);
 		let center = centerRst.slice(0, half);
 		let centerCarry = centerRst.slice(half);
 		
-		console.log("center : ", center);
-		console.log("centerCarry : ", centerCarry);
+		// console.log("center : ", center);
+		// console.log("centerCarry : ", centerCarry);
 
-		let right = addString(rightRst , centerCarry).join('');
+		let right = addString(rightRst , centerCarry);
 
-		console.log("right : ", right);
+		// console.log("right : ", right);
 
-		console.log("LongString : ", left + center + right);
+		// console.log("LongString : ", left + center + right);
 
 		return deleteFrontZero(left + center + right);
 
@@ -339,15 +348,15 @@ function pieceOfMultiplication( first, second ) {
 	// 两位数相乘
 	else if( half <= 2 && half >= 0) {
 		// 一位或两位的字符串转数字
-		let firstLeftNumber = Number(firstLeft.split('').reverse().join(''));
-		let firstRightNumber = Number(firstRight.split('').reverse().join(''));
-		let secondLeftNumber = Number(secondLeft.split('').reverse().join(''));
-		let secondRightNumber = Number(secondRight.split('').reverse().join(''));
+		let firstLeftNumber = Number(reverseString( firstLeft ));
+		let firstRightNumber = Number(reverseString( firstRight ));
+		let secondLeftNumber = Number(reverseString( secondLeft ));
+		let secondRightNumber = Number(reverseString( secondRight ));
 		
-		console.log("firstLeftNumber : ", firstLeftNumber);
-		console.log("firstRightNumber : ", firstRightNumber);
-		console.log("secondLeftNumber : ", secondLeftNumber);
-		console.log("secondRightNumber : ", secondRightNumber);
+		// console.log("firstLeftNumber : ", firstLeftNumber);
+		// console.log("firstRightNumber : ", firstRightNumber);
+		// console.log("secondLeftNumber : ", secondLeftNumber);
+		// console.log("secondRightNumber : ", secondRightNumber);
 		// 相乘
 		let leftRstNumber = firstLeftNumber * secondLeftNumber;
 		let centerRstNumber = firstLeftNumber * secondRightNumber + secondLeftNumber * firstRightNumber;
@@ -366,9 +375,9 @@ function pieceOfMultiplication( first, second ) {
 
 		// console.log("String : ", String(left) + String(center) + String(right));
 
-		left = deleteFrontZero(String(left).split('').reverse().join(''));
-		center = deleteFrontZero(String(center).split('').reverse().join(''));
-		right = deleteFrontZero(String(right).split('').reverse().join(''));
+		left = deleteFrontZero(reverseString( String(left) ));
+		center = deleteFrontZero(reverseString( String(center) ));
+		right = deleteFrontZero(reverseString( String(right) ));
 		return deleteFrontZero( left + center + right );
 
 	}
@@ -382,8 +391,74 @@ function pieceOfMultiplication( first, second ) {
 
 }
 
+// 除法
+function divide( first , second ) {
+	
+	// 返回的字符串结果和判断符号
+	let firstNumber = first.number;
+	let secondNumber = second.number;
+	let rst = [];
+	let quotient = 0;
+	// 被除数
+	let dividend = reverseString( first.number );
+	// 除数
+	let divisor = reverseString( second.number );
+	let pieceLength = divisor.length;
+
+	// 余数
+	let remainder = '';
+
+	// 当被除数小于除数时，返回0
+	let difference = subtractString(first, second);
+	if(difference.sign === -1){
+		return numberAnalysis( 0 ); 
+	}
+
+	let piece = dividend.slice(0, pieceLength);
 
 
+	do{
+		
+		
+		difference = subtract( numberAnalysis(piece) , numberAnalysis(divisor) );
+		
+		// 能除时
+		if(difference.sign === 1){
+
+			quotient++;
+			piece = reverseString( difference.number );
+
+		}
+		// 不能除时借位
+		else if(difference.sign === -1 && dividend.length > divisor.length){
+			
+			rst.push(quotient);
+			if(piece === '0'){
+				dividend = devidend.slice(pieceLength);
+			}else if{
+				dividend = piece + devidend.slice(pieceLength);
+			}			
+			pieceLength++;
+
+		}
+		// 结束时
+		else if(difference.sign === -1 && dividend.length > divisor.length){
+
+			remainder = piece;
+
+		}
+
+	}while(difference.sign === 1 || dividend.length > divisor.length);
+
+
+	rst = rst.reverse();
+
+	if(first.sign * second.sign === -1){
+		rst.push('-');
+	}
+
+	return new numberAnalysis( rst );
+}
 
 
 
@@ -398,6 +473,7 @@ function testFunction (x, y) {
 
 	// return add( elem1, elem2);
 	// return subtract( elem1 , elem2 );
-	return multiply( elem1 , elem2 );
+	// return multiply( elem1 , elem2 );
+	return divide(elem1, elem2);
 
 }
