@@ -20,7 +20,7 @@ function NumberObject( string , sign ) {
 
 		this.number = string.split('').reverse().join('');
 		this.length = string.length;
-		console.log("NumberObject : ", this.number);
+		// console.log("NumberObject : ", this.number);
 
 	}else{
 
@@ -39,8 +39,8 @@ function NumberObject( string , sign ) {
 // 将参数统一转换为字符串
 function numberTransform(number) {
 
-	console.log("numberTransform : ", typeof number);
-	console.log("numberTransform : ", number);
+	// console.log("numberTransform : ", typeof number);
+	// console.log("numberTransform : ", number);
 
 	switch(typeof number){
 		case 'number':
@@ -61,8 +61,8 @@ function numberTransform(number) {
 function numberAnalysis( number ) {
 
 	let raw = numberTransform( number );
-	console.log("numberAnalysis : ", typeof raw);
-	console.log("numberAnalysis : ", raw);
+	// console.log("numberAnalysis : ", typeof raw);
+	// console.log("numberAnalysis : ", raw);
 	
 	if( raw[0] != '-' && raw[0] < '0' || raw[0] >'9'){
 		alert('The number you input is wrong.');
@@ -89,45 +89,32 @@ function numberAnalysis( number ) {
 }
 
 
-function addString( first, second ) {
-
-	let carry = 0,
-	     rst = [];
-	let length = first.length > second.legnth ? first.length : second.length;
-
-	for(let i = 0; i < length || carry === 1; i++){
-
-		if( first[i] && second[i] ){
-
-			rst[i]   = ( (first[i] - 0)  +  (second[i] - 0)  + carry ) % 10;
-			carry  = ( (first[i] - 0)  +  (second[i] - 0)  + carry ) / 10;
-
-		}else if( !first[i] && second[i] ){
-
-			rst[i]   = ( (first[i] - 0) + carry ) % 10;
-			carry  = ( (first[i] - 0) + carry ) / 10;
-
-		}else if( first[i] && !second[i] ){
-
-			rst[i]   = ( (second[i] - 0) + carry ) % 10;
-			carry  = ( (second[i] - 0) + carry ) / 10;
-
-		}else if( !first[i] && !second[i] && carry === 1){
-			
-			rst[i]   = carry;
-			carry  = 0;
-		}else{
-			alert("The logic of your addition is wrong.");
-
-			// 程序停止
-			// stop();
+// 补零 (传入字符串， 传出字符串)
+function addFrontZero( string , length ){
+	for(let i = 0; i < length; i++){
+		if(i > string.length - 1){
+			string += '0';
 		}
+	}
+	return string;
+}
 
-		// JS 的商一般都为小数，需要取整
-		carry = Math.floor( carry );
+// 去零 (传入字符串，传出数组)
+function deleteFrontZero( string ){
+	
+	let arr = string.split('');
+
+	let end = arr.length - 1;
+
+	while( arr[end--] === '0' ){
+		arr.pop();
+	}
+
+	if(arr.length === 0){
+		arr.push('0');
 	}
 	
-	return rst;
+	return arr.join('');
 }
 
 // 加法
@@ -148,6 +135,54 @@ function add( first , second ) {
 }
 
 
+function addString( first, second ) {
+
+	let carry = 0,
+	     rst = [];
+	let length = first.length > second.length ? first.length : second.length;
+
+	let fst = addFrontZero(first, length);
+	let scd = addFrontZero(second, length);
+
+	for(let i = 0; i < length || carry === 1; i++){
+
+		if( fst[i] && scd[i] ){
+
+			rst[i]   = ( (fst[i] - 0)  +  (scd[i] - 0)  + carry ) % 10;
+			carry  = ( (fst[i] - 0)  +  (scd[i] - 0)  + carry ) / 10;
+
+		}else if( !fst[i] && scd[i] ){
+
+			rst[i]   = ( (scd[i] - 0) + carry ) % 10;
+			carry  = ( (scd[i] - 0) + carry ) / 10;
+
+		}else if( fst[i] && !scd[i] ){
+
+			rst[i]   = ( (fst[i] - 0) + carry ) % 10;
+			carry  = ( (fst[i] - 0) + carry ) / 10;
+
+		}else if( !fst[i] && !scd[i] && carry === 1){
+			
+			rst[i]   = carry;
+			carry  = 0;
+		}else{
+			alert("The logic of your addition is wrong.");
+
+			// 程序停止
+			// stop();
+		}
+
+		// JS 的商一般都为小数，需要取整
+		carry = Math.floor( carry );
+	}
+	
+	console.log("addString : ", rst.join(''));
+	return rst;
+}
+
+
+
+
 // 减法
 function subtract(  first , second ) {
 
@@ -163,14 +198,8 @@ function subtract(  first , second ) {
 	}
 
 	// 补零，被减数和减数的位数相同
-	for(let i = 0; i < length; i++){
-		if(i > first.length - 1){
-			first.number += '0';
-		}
-		if(i > second.length - 1){
-			second.number += '0';
-		}
-	}
+	first.number = addFrontZero(first.number , length);
+	second.number = addFrontZero(second.number , length)
 
 	// 决定被减数和减数
 	for(let i = 0; i < length; i++){
@@ -203,10 +232,7 @@ function subtract(  first , second ) {
 	}
 
 	// 去零
-	let end = length - 1;
-	while( rst[end--] === 0 ){
-		rst.length--;
-	}
+	rst = deleteFrontZero( rst );
 	
 	// 结果取负号
 	if( (first.sign === 1 && first.number !== minuend.number) || (first.sign === -1 && first.number === minuend.number) ){
@@ -215,7 +241,7 @@ function subtract(  first , second ) {
 		
 	}
 	
-	console.log("subtrahend-rst : ",rst);
+	// console.log("subtrahend-rst : ",rst);
 
 	return numberAnalysis( rst  );
 
@@ -226,7 +252,18 @@ function subtract(  first , second ) {
 function multiply( first , second ) {
 	
 	// 返回的字符串结果和判断符号
+	let firstNumber = first.number;
+	let secondNumber = second.number;
 	
+	// console.log("firstNumber : ", typeof firstNumber);
+
+	let rst = pieceOfMultiplication( firstNumber , secondNumber );
+
+	if(first.sign * second.sign === -1){
+		rst.push('-');
+	}
+
+	return new numberAnalysis( rst );
 
 }
 
@@ -251,61 +288,88 @@ function pieceOfMultiplication( first, second ) {
 		}
 	}
 
-	let center = Math.floor( length / 2 );
-
-	// 分割数字
-	let firstLeftString = first.number.slice(0, center);
-	let firstRightString = first.number.slice( center );
-	let secondLeftString = first.number.slice(0, center);
-	let secondRightString = second.number.slice( center );
+	let half = Math.floor( length / 2 );
 	
-	// 重组数字
-	let firstLeft = new PieceNumber( firstRightString , firstRightString.length );
-	let firstRight = new PieceNumber( firstRightString , firstRightString.length );
-	let secondLeft = new PieceNumber( secondLeftString , secondLeftString.length );
-	let secondRight = new PieceNumber( secondRightString , secondRightString.length );
+	// 分割数字
+	let firstLeft = first.slice(0, half);
+	let firstRight = first.slice( half );
+	let secondLeft = second.slice(0, half);
+	let secondRight = second.slice( half );
+	
 
 	// 递归长度大于2的数相乘
-	if( center > 2 ) {
+	if( half > 2 ) {
 		
 		// 分解
 		let leftRst = pieceOfMultiplication( firstLeft , secondLeft );
-		let centerRst = pieceOfMultiplication( firstLeft , secondRight ) + pieceOfMultiplication( firstRight , secondLeft );
+		let centerRst = addString( pieceOfMultiplication( firstLeft , secondRight ) , pieceOfMultiplication( firstRight , secondLeft ) ).join('');
 		let rightRst = pieceOfMultiplication( firstRight , secondRight );
-		
 
+		leftRst = deleteFrontZero(String(leftRst));
+		centerRst = deleteFrontZero(String(centerRst));
+		rightRst = deleteFrontZero(String(rightRst));
+		console.log();
+		console.log("leftRst : ", leftRst);
+		console.log("centerRst : ", centerRst);
+		console.log("rightRst : ", rightRst);
 		// 重组
-		let left = leftRst[0] + leftRst[1];
-		let leftCarry = leftRst.slice(2);
+		
+		let left = leftRst.slice(0, half);
+		let leftCarry = leftRst.slice(half);
+		console.log("left : ", left);
+		console.log("leftCarry : ", leftCarry);
 
-		centerRst = addString(centerRst , leftCarry);
-		let center = centerRst[0] + centerRst[1];
-		let centerCarry = centerRst.slice(2);
+		centerRst = addString(centerRst , leftCarry).join('');
+		console.log("centerRst : ", centerRst);
+		let center = centerRst.slice(0, half);
+		let centerCarry = centerRst.slice(half);
+		
+		console.log("center : ", center);
+		console.log("centerCarry : ", centerCarry);
 
-		let right = addString(rightRst , centerCarry);
-		return left + center + right;
+		let right = addString(rightRst , centerCarry).join('');
+
+		console.log("right : ", right);
+
+		console.log("LongString : ", left + center + right);
+
+		return deleteFrontZero(left + center + right);
 
 	}
 	// 两位数相乘
-	else if( center <= 2 && center > 0) {
+	else if( half <= 2 && half >= 0) {
 		// 一位或两位的字符串转数字
-		let firstLeftNumber = Number(firstLeftString);
-		let firstRightNumber = Number(firstRightString);
-		let secondLeftNumber = Number(secondLeftString);
-		let secondRightNumber = Number(secondRightString);
-
+		let firstLeftNumber = Number(firstLeft.split('').reverse().join(''));
+		let firstRightNumber = Number(firstRight.split('').reverse().join(''));
+		let secondLeftNumber = Number(secondLeft.split('').reverse().join(''));
+		let secondRightNumber = Number(secondRight.split('').reverse().join(''));
+		
+		console.log("firstLeftNumber : ", firstLeftNumber);
+		console.log("firstRightNumber : ", firstRightNumber);
+		console.log("secondLeftNumber : ", secondLeftNumber);
+		console.log("secondRightNumber : ", secondRightNumber);
 		// 相乘
 		let leftRstNumber = firstLeftNumber * secondLeftNumber;
-		let centerRstNumber = firstLeftNumber * secondRightNumber + secondLeftNumber * firstRightString;
+		let centerRstNumber = firstLeftNumber * secondRightNumber + secondLeftNumber * firstRightNumber;
 		let rightRstNumber = firstRightNumber * secondRightNumber;
-
+		
+		// console.log("leftRstNumber : ", leftRstNumber);
+		// console.log("centerRstNumber : ", centerRstNumber);
+		// console.log("rightRstNumber : ", rightRstNumber);
+		
+		
 		// 重组
 		let left = leftRstNumber % 100;
 		let centerRst = Math.floor(leftRstNumber / 100) + centerRstNumber;
 		let center = centerRst % 100;
 		let right = Math.floor(centerRst / 100) + rightRstNumber;
 
-		return String(left) + String(center) + String(right);
+		// console.log("String : ", String(left) + String(center) + String(right));
+
+		left = deleteFrontZero(String(left).split('').reverse().join(''));
+		center = deleteFrontZero(String(center).split('').reverse().join(''));
+		right = deleteFrontZero(String(right).split('').reverse().join(''));
+		return deleteFrontZero( left + center + right );
 
 	}
 
@@ -334,4 +398,6 @@ function testFunction (x, y) {
 
 	// return add( elem1, elem2);
 	// return subtract( elem1 , elem2 );
+	return multiply( elem1 , elem2 );
+
 }
