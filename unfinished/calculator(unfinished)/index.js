@@ -61,8 +61,6 @@ function numberTransform(number) {
 function numberAnalysis( number ) {
 
 	let raw = numberTransform( number );
-	// console.log("numberAnalysis : ", typeof raw);
-	// console.log("numberAnalysis : ", raw);
 	
 	if( raw[0] != '-' && raw[0] < '0' || raw[0] >'9'){
 		alert('The number you input is wrong.');
@@ -196,15 +194,19 @@ function subtract(  first , second ) {
 	let rst = [], 
 	     minuend,
 	     subtrahend;	
+	let length = first.length > second.length ? first.length : second.length;
 
 	// 被减数和减数相同
 	if(first.number === second.number){
-		return '0';
+		return numberAnalysis('0');
 	}
 
 	// 补零，被减数和减数的位数相同
 	first.number = addFrontZero(first.number , length);
-	second.number = addFrontZero(second.number , length)
+	second.number = addFrontZero(second.number , length);
+
+	// console.log("subtract-first : ", first);
+	// console.log("subtract-second : ", second);
 
 	// 决定被减数和减数
 	for(let i = 0; i < length; i++){
@@ -217,7 +219,9 @@ function subtract(  first , second ) {
 		}
 	}
 
-	
+	// console.log("minuend : ", minuend);
+	// console.log("subtrahend : ", subtrahend);
+
 	rst = subtractString(minuend.number , subtrahend.number).split('');
 	
 	// 结果取负号
@@ -307,7 +311,7 @@ function pieceOfMultiplication( first, second ) {
 	
 
 	// 递归长度大于2的数相乘
-	if( half > 2 ) {
+	if( half >= 2 ) {
 		
 		// 分解
 		let leftRst = pieceOfMultiplication( firstLeft , secondLeft );
@@ -346,7 +350,7 @@ function pieceOfMultiplication( first, second ) {
 
 	}
 	// 两位数相乘
-	else if( half <= 2 && half >= 0) {
+	else if( half === 1) {
 		// 一位或两位的字符串转数字
 		let firstLeftNumber = Number(reverseString( firstLeft ));
 		let firstRightNumber = Number(reverseString( firstRight ));
@@ -366,12 +370,11 @@ function pieceOfMultiplication( first, second ) {
 		// console.log("centerRstNumber : ", centerRstNumber);
 		// console.log("rightRstNumber : ", rightRstNumber);
 		
-		
 		// 重组
-		let left = leftRstNumber % 100;
-		let centerRst = Math.floor(leftRstNumber / 100) + centerRstNumber;
-		let center = centerRst % 100;
-		let right = Math.floor(centerRst / 100) + rightRstNumber;
+		let left = leftRstNumber % 10;
+		let centerRst = Math.floor(leftRstNumber / 10) + centerRstNumber;
+		let center = centerRst % 10;
+		let right = Math.floor(centerRst / 10) + rightRstNumber;
 
 		// console.log("String : ", String(left) + String(center) + String(right));
 
@@ -409,49 +412,60 @@ function divide( first , second ) {
 	let remainder = '';
 
 	// 当被除数小于除数时，返回0
-	let difference = subtractString(first, second);
-	if(difference.sign === -1){
+	let compare = subtractString(first, second);
+	if(compare.sign === -1){
 		return numberAnalysis( 0 ); 
 	}
-
+	
+	
 	let piece = dividend.slice(0, pieceLength);
-
-
+	let difference = 0;
 	do{
 		
-		
+		compare  = subtract( numberAnalysis(dividend) , numberAnalysis(divisor) );
+		console.log("piece : ", piece);
+		console.log("pieceLength : ", pieceLength);
 		difference = subtract( numberAnalysis(piece) , numberAnalysis(divisor) );
-		
+		console.log("difference : ", difference);
+
 		// 能除时
-		if(difference.sign === 1){
+		if(difference.sign === 1 || difference.number === '0'){
 
 			quotient++;
+			console.log("quotient : ", quotient);
 			piece = reverseString( difference.number );
 
 		}
+
+		// 结束时
+		if(compare.sign === -1){
+
+			remainder = piece;
+			break;
+
+		}
 		// 不能除时借位
-		else if(difference.sign === -1 && dividend.length > divisor.length){
+		else if(difference.sign === -1 && piece.length <= divisor.length){
 			
 			rst.push(quotient);
 			if(piece === '0'){
-				dividend = devidend.slice(pieceLength);
-			}else if{
-				dividend = piece + devidend.slice(pieceLength);
-			}			
-			pieceLength++;
+				dividend = dividend.slice(pieceLength);
+				pieceLength = divisor.length;
 
-		}
-		// 结束时
-		else if(difference.sign === -1 && dividend.length > divisor.length){
-
-			remainder = piece;
-
+			}else{
+				dividend = piece + dividend.slice(pieceLength);
+				pieceLength = divisor.length;
+				pieceLength++;
+			}
+			quotient = 0;
+			piece = dividend.slice(0, pieceLength);
 		}
 
-	}while(difference.sign === 1 || dividend.length > divisor.length);
+
+	}while(difference.sign === 1 || dividend.length >= divisor.length);
 
 
-	rst = rst.reverse();
+	rst = deleteFrontZero( rst.reverse().join('') ).split('') ;
 
 	if(first.sign * second.sign === -1){
 		rst.push('-');
