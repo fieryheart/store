@@ -45,3 +45,29 @@ pubsub.publish( "stockInformation", {
 	identifier: "MSFT",
 	stockPrice: 30.85
 })
+
+
+var request = new XMLHttpRequest();
+
+request.onreadystatechange = (e) => {
+	if(request.readyState !== 4){
+		return ;
+	}
+
+	if(request.status === 200){
+		return request.responseText;
+	}else{
+		console.log(warn('error'))
+	}
+};
+
+request.open('GET', 'http://news-at.zhihu.com/api/4/news/latest')
+request.open();
+
+var req = new Request('http://news-at.zhihu.com/api/4/news/latest',{Content-Security-Policy-Report-Only: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;});
+
+fetch(req)
+       .then((response) => response.json() )
+       .catch((error) => {
+         console.error(error);
+       });
