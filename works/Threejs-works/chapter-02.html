@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>chapter-02</title>
+	<script type="text/javascript" src="./js/jquery-3.1.0.js"></script>
+	<script type="text/javascript" src="./js/three.js"></script>
+	<script type="text/javascript" src="./js/stats.min.js"></script>
+	<script type="text/javascript" src="./js/dat.gui.js"></script>
+	<script type="text/javascript" src="./js/Tween.js"></script>
+	<style>
+		body{
+			margin: 0;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<div id="Stat-output"></div>
+	<div id="canvas">
+		
+	</div>
+	<script type="text/javascript">
+
+		
+		function initStats(){
+			var stats = new Stats();
+			stats.setMode(0);
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.left = '0px';
+			stats.domElement.style.top = '0px';
+			$('#canvas').append( stats.domElement );
+			return stats;
+		}
+
+
+		$(function(){
+			var scene = new THREE.Scene();
+
+			var camera = new THREE.PerspectiveCamera(45,window.innerWidth / window.innerHeight, 0.1 , 1000);
+
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor(0xEEEEEE, 1.0);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			// renderer.shadowMapEnabled = true;
+
+			var axes = new THREE.AxisHelper( 20 );
+			scene.add(axes);
+
+			var stats = initStats();
+
+
+
+			var planeGeometry = new THREE.PlaneGeometry(60,40,1,1);
+			var planeMaterial = new THREE.MeshLambertMaterial({color:0xcccccc});
+			
+			var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+			plane.rotation.x = -0.5*Math.PI;
+			plane.receiveShadow = true;
+
+
+			scene.add(plane);
+
+			
+			var ambientLight = new THREE.AmbientLight(0xcccccc);
+			scene.add(ambientLight);
+
+			var spotLight = new THREE.SpotLight(0xffffff);
+			spotLight.position.set( -30, 50, -20 );
+			// spotLight.castShadow = true;
+			scene.add( spotLight );	
+
+			var vertices = [
+				new THREE.Vector3(1,3,1),
+				new THREE.Vector3(1,3,-1),
+				new THREE.Vector3(1,-1,1),
+				new THREE.Vector3(1,-1,-1),
+				new THREE.Vector3(-1,3,-1),
+				new THREE.Vector3(-1,3,1),
+				new THREE.Vector3(-1,-1,-1),
+				new THREE.Vector3(-1,-1,1),
+			];
+			
+			var faces = [
+				new THREE.Face3(0,2,1),
+				new THREE.Face3(2,3,1),
+				new THREE.Face3(4,6,5),
+				new THREE.Face3(6,7,5),
+				new THREE.Face3(4,5,1),
+				new THREE.Face3(5,0,1),
+				new THREE.Face3(7,6,2),
+				new THREE.Face3(6,3,2),
+				new THREE.Face3(5,7,0),
+				new THREE.Face3(7,2,0),
+				new THREE.Face3(1,3,4),
+				new THREE.Face3(3,6,4),
+			];
+
+			var geomGeometry = new THREE.Geometry();
+			geomGeometry.vertices = vertices;
+			geomGeometry.faces = faces;
+			geomGeometry.computeCentroids;
+			geomGeometry.mergeVertices();
+			var geomMaterial = new THREE.MeshLambertMaterial({color:0x000000});
+			var geom =new THREE.Mesh(geomGeometry,geomMaterial);
+			scene.add(geom);
+			// function renderScene() {
+			// 	stats.update();
+
+
+			// 	requestAnimationFrame(renderScene);
+			// 	renderer.render(scene, camera);
+			// }
+
+			camera.position.x = -8;
+			camera.position.y = 8;
+			camera.position.z = 6;
+			camera.lookAt(scene.position);
+
+
+			$("#canvas").append(renderer.domElement);
+			renderer.render(scene, camera);
+			// renderScene();
+
+		})
+	</script>
+</body>
+</html>
