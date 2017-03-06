@@ -1,0 +1,7 @@
+  "buckets_url": "https://api.dribbble.com/v1/users/1627171/buckets",
+  "followers_url": "https://api.dribbble.com/v1/users/1627171/followers",
+  "following_url": "https://api.dribbble.com/v1/users/1627171/following",
+  "likes_url": "https://api.dribbble.com/v1/users/1627171/likes",
+  "projects_url": "https://api.dribbble.com/v1/users/1627171/projects",
+  "shots_url": "https://api.dribbble.com/v1/users/1627171/shots",
+  "teams_url": "https://api.dribbble.com/v1/users/1627171/teams",
