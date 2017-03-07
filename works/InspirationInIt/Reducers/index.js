@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux';
 
-const shotsReducer = (state={}, action => {
+const initialState = {
+	'shots': []
+}
+
+const shotsReducer = (state=initialState, action) => {
 
 	switch (action.type) {
-		case 'TOPICS':
+		case 'GET_SHOTS':
+			console.error(1);
 			return {
 				'shots' : action.payload
 			}
@@ -11,7 +16,7 @@ const shotsReducer = (state={}, action => {
 		default:
 			return state;
 	}
-})
+}
 
 const rootReducer = combineReducers({
 	shotsReducer

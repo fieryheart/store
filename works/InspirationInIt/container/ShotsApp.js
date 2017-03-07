@@ -6,37 +6,44 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import actions from '../Action';
 
-import Shot from './Shot.js';
+import Shot from './Shot';
 
 
 // 添加redux来改变state重新更新
 class ShotsApp extends Component {
 
-    handleShotList( shots ) {
-        let data = [];
+    componentDidMount() {
+        let {actions} = this.props;
+        actions.fetchShots();
+    }
 
+    handleShotList(shots) {
+
+        let data = [];
         if(shots) {
+            // console.error(typeof shots);
             shots.forEach( (shot) => {
                     if(shot){
-                        data.push(<Shot shotInfo={shot}/>)
+                        data.push(<Shot shotInfo={shot} key={shot.id}/>)
                     }
             })
         }
-
-        return data;
+        return data
     }
 
     render() {
-        actions.getShots();
-        const {state , actions} = this.props;
+        
+        let {state} = this.props;
+
+
         return (
             <View>
-
-                { this.handleShotList(stata.shots) }
-                <Text>shots</Text>
-
+                    { this.handleShotList(state.shots) }
+                    <Text>Shots</Text>
             </View>
+
         );
     }
 }
@@ -48,8 +55,8 @@ const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actions, dispatch)
 });
 
-const mapStateToProps = state => {
-    state = state.shotsReducer; 
-}
+const mapStateToProps = state => ({
+    state : state.shotsReducer
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShotsApp)
+export default connect(mapStateToProps , mapDispatchToProps)(ShotsApp)

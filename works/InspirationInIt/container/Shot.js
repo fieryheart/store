@@ -3,7 +3,6 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View,
   Image
 } from 'react-native';
 
@@ -15,12 +14,16 @@ export default class Shot extends Component {
 	  this.state = {
 		imageURL: this.props.shotInfo.images.normal,
 	  };
+
+
 	}
 
 	render(){
-		<View>
-			<Image src={require(imageURL)} />
-		</View>
+
+		return (
+			<Image source={{uri: this.state.imageURL}} />
+		);
+
 	}
 
 }
