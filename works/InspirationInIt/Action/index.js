@@ -36,23 +36,25 @@ const actions = {
 				});
 
 
-				 fetch(request).then(response => {
-					console.error(response);
-				 })
-						.then(json => {
-							console.error(1);
-							dispatch( actions.getShots(json) )
+				 fetch(request).then(response => response._bodyInit)
+						.then(data => {
+							let json = JSON.parse(data);		
+							dispatch( actions.getShots(json.shots) )
 						})
 				                      	.catch((error) => {
-				                              		console.error(1);
+				                              		console.error(error);
 				                     	});
-
+				return {
+					type:''
+				};
 	},
 
-	getShots: (json) => ({
-		type: 'GET_SHOTS',
-		payload: json
-	})
+	getShots: (json) => {
+		return {
+			type: 'GET_SHOTS',
+			payload: json
+		}
+	}
 }
 
 export default actions;
