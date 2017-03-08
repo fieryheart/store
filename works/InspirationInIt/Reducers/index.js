@@ -8,12 +8,12 @@ const shotsReducer = (state=initialState, action) => {
 
 	switch (action.type) {
 		case 'GET_SHOTS':
+			console.error(1);
 			return {
 				'shots' : action.payload
 			}
 
 		default:
-
 			return state;
 	}
 }
