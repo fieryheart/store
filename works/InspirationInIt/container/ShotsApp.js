@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
+        backgroundColor: '#aaaaaa'
     }
 
 });

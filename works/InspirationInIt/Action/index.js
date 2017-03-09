@@ -54,6 +54,18 @@ const actions = {
 			type: 'GET_SHOTS',
 			payload: json
 		}
+	},
+
+	showImage: () => {
+		return {
+			type: 'SHOW_IMAGE'
+		}
+	},
+
+	showDescription: () => {
+		return {
+			type: 'SHOW_DESCRIPTION'
+		}
 	}
 }
 
