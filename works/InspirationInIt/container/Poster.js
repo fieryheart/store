@@ -5,7 +5,8 @@ import {
 	Image,
 	StyleSheet,
 	Dimensions,
-	TouchableHighlight
+	TouchableHighlight,
+	Animated
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,7 +20,12 @@ class Poster extends Component {
 	constructor(props) {
 	  	super(props);
 	
-	  	this.state = {};
+	  	this.state = {
+			imgWidth: new Animated.Value(0),
+			imgHeight: new Animated.Value(0),
+			imgMarginTop: new Animated.Value(0)
+	  	};
+
 		this.onDelete = this.onDelete.bind(this);
 	}
 
@@ -29,6 +35,38 @@ class Poster extends Component {
 		actions.notShowImage();
 
 	}
+	
+	componentDidMount() {
+		this.state.imgWidth.setValue(1);
+		this.state.imgHeight.setValue(1);
+		this.state.imgMarginTop.setValue(0);
+
+		Animated.parallel([
+			Animated.spring(
+				this.state.imgWidth,
+				{
+					toValue: 500,
+					friction: 3
+				}
+			),
+			Animated.spring(
+				this.state.imgHeight,
+				{
+					toValue: 300,
+					frinction: 3
+				}
+			),
+			Animated.spring(
+				this.state.imgMarginTop,
+				{
+					toValue: -100,
+					frinction: 3
+				}
+			)
+		]).start();
+
+	}
+
 
 	render() {
 		return (
@@ -43,10 +81,10 @@ class Poster extends Component {
 				</TouchableHighlight>
 				<View style={styles.flexOne}>
 
-					<Image source={{
-						uri: this.props.source
+					<Animated.Image source={{
+							uri: this.props.source
 						}} 
-						style={[styles.image]}
+						style={{width: this.state.imgWidth, height: this.state.imgHeight, borderRadius: 10, marginTop: this.state.marginTop}}
 					/>
 				</View>
 			</View>
@@ -70,14 +108,8 @@ const styles = StyleSheet.create({
 		bottom:0,
 		left: 0,
 		right: 0,
-		backgroundColor: '#aaaaaa',
-		opacity: 0.5
-	},
-	image: {
-		width: 500,
-		height: 300,
-		borderRadius: 10,
-		marginTop: -100
+		backgroundColor: '#000000',
+		opacity: 0.8
 	},
 	button: {
 		width: 30,
