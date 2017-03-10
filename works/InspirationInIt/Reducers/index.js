@@ -4,7 +4,9 @@ import { fromJS } from 'immutable';
 const initialState = {
 	'shots': [],
 	'showImage': false,
-	'showDescription': false
+	'imageURL': null,
+	'showDescription': false,
+	'description': null
 }
 
 const shotsReducer = (state=initialState, action) => {
@@ -14,10 +16,16 @@ const shotsReducer = (state=initialState, action) => {
 			return fromJS(state).set('shots', action.payload).toJS();
 
 		case 'SHOW_IMAGE':
-			return fromJS(state).set('showImage', true).toJS();
+			return fromJS(state).set('showImage', true)
+					.set('imageURL', action.payload).toJS();
+
+		case 'NOT_SHOW_IMAGE':
+			return fromJS(state).set('showImage', false)
+					.set('imageURL', null).toJS();
+
 
 		case 'SHOW_DESCRIPTION':
-			return fromJS(state).set('showDescription', true).toJS();
+			return fromJS(state).set('showDescription', action.payload).toJS();
 			
 		default:
 			return state;

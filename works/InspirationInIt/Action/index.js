@@ -49,24 +49,23 @@ const actions = {
 				};
 	},
 
-	getShots: (json) => {
-		return {
-			type: 'GET_SHOTS',
-			payload: json
-		}
-	},
+	getShots: (json) => ({
+		type: 'GET_SHOTS',
+		payload: json
+	}),
 
-	showImage: () => {
-		return {
-			type: 'SHOW_IMAGE'
-		}
-	},
+	showImage: (imageURL) => ({
+		type: 'SHOW_IMAGE',
+		payload: imageURL
+	}),
 
-	showDescription: () => {
-		return {
-			type: 'SHOW_DESCRIPTION'
-		}
-	}
+	notShowImage: () =>({
+		type: 'NOT_SHOW_IMAGE'
+	}),
+	
+	showDescription: () => ({
+		type: 'SHOW_DESCRIPTION'
+	})
 }
 
 export default actions;

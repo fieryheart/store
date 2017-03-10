@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Action';
-
+import Poster from './Poster';
 import Shot from './Shot';
 
 
@@ -20,29 +20,46 @@ class ShotsApp extends Component {
         actions.fetchShots();
     }
 
-    handleShotList(shots) {
+    showShotList(shots) {
         let data = [];
+        let {actions}  = this.props;
         if(shots) {
             shots.forEach( (shot) => {
                     if(shot){
-                        data.push(<Shot shotInfo={shot} key={shot.id}/>)
+                        data.push(<Shot shotInfo={shot} key={shot.id} />)
                     }
             })
         }
-        return data
+        return data;
+    }
+
+
+    showImg( state ) {
+        let poster = [];
+        if(state.showImage){
+           poster.push( <Poster source={state.imageURL}  key={poster.length}/> );
+       }else{
+            poster.pop();
+       }
+
+       return poster;
     }
 
     render() {
         
         let {state} = this.props;
-        
-        return (
-            <ScrollView>
-                <View style={styles.shotsBoxSize}>
-                     { this.handleShotList(state.shots) }
-                </View>            
-            </ScrollView>
 
+        return (
+            <View>
+                <ScrollView>
+                    <View style={styles.shotsBoxSize}>
+                         { this.showShotList(state.shots) }      
+                    </View>
+                </ScrollView>
+                <View style={styles.posterContainer}>
+                    { this.showImg(state) }
+                </View>
+            </View>
         );
     }
 }
@@ -54,6 +71,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         backgroundColor: '#aaaaaa'
+    },
+    posterContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom:0,
+        left: 0,
+        right: 0
     }
 
 });

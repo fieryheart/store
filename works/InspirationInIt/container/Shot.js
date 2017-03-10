@@ -10,6 +10,8 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Action';
+
+
 import Icon from './Icon';
 import CropImage from 'react-native-cropimage';
 
@@ -17,37 +19,40 @@ import CropImage from 'react-native-cropimage';
 class Shot extends Component {
 
 	constructor(props) {
-	  super(props);
-	
-	  this.state = {
-		imageURL: this.props.shotInfo.images.normal,
-		viewsCount : this.props.shotInfo.views_count,
-		commentsCount: this.props.shotInfo.comments_count,
-		likesCount: this.props.shotInfo.likes_count
-	  };
+		  super(props);
+		  this.state = {
+			imageURL: this.props.shotInfo.images.normal,
+			viewsCount : this.props.shotInfo.views_count,
+			commentsCount: this.props.shotInfo.comments_count,
+			likesCount: this.props.shotInfo.likes_count,
+		  };
 
-
+		this._showImage = this._showImage.bind(this);
+		  
 	}
 
 	_showImage() {
-		let {actions} = this.props;
-		actions.showImage();
-		console.error('showImage');
+
+		let {actions}  = this.props;
+		
+		actions.showImage(this.state.imageURL);
+		
 	}
 
 	_showDescription() {
-		let {actions} = this.props;
-		actions.showDescription();
+
 		console.error('Description');
 	}
 
 	render(){
+
+		let {actions} = this.props;
+
 		return (
 			<View style={ [styles.row , styles.shotWrap] }>
 				<View style={ [styles.col , styles.flexOne] }>
 					<TouchableOpacity onPress={this._showImage} style={styles.flexOne}>
 						<Image source={{uri: this.state.imageURL}}  style={ styles.imgSize }/>
-
 					</TouchableOpacity>
 					<View  style={ [styles.flexOne, styles.row, styles.icons] }>
 						<Icon 
@@ -92,8 +97,7 @@ class Shot extends Component {
 							}}
 							count={this.state.likesCount}
 						/>
-					</View>
-								
+					</View>								
 				</View>
 				<View style={ styles.segment }></View>	
 				<View  style={styles.description}>
@@ -170,6 +174,5 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
     state : state.shotsReducer
 });
-
 
 export default connect(mapStateToProps , mapDispatchToProps)(Shot)
