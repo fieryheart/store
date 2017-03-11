@@ -10,7 +10,7 @@ import { bindActionCreators } from 'redux';
 import actions from '../Action';
 import Poster from './Poster';
 import Shot from './Shot';
-
+import Description from './Description';
 
 // 添加redux来改变state重新更新
 class ShotsApp extends Component {
@@ -45,6 +45,19 @@ class ShotsApp extends Component {
        return poster;
     }
 
+    showDescription( state ) {
+        let description = [];
+
+        if(state.showDescription){
+            description.push( <Description description={state.description} key={description.length} /> );
+        }else{
+            description.pop();
+        }
+
+        return description;
+    }
+
+
     render() {
         
         let {state} = this.props;
@@ -58,6 +71,9 @@ class ShotsApp extends Component {
                 </ScrollView>
                 <View style={styles.posterContainer}>
                     { this.showImg(state) }
+                </View>
+                <View>
+                    { this.showDescription(state)}
                 </View>
             </View>
         );

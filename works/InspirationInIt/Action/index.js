@@ -38,7 +38,7 @@ const actions = {
 
 				 fetch(request).then(response => response._bodyInit)
 						.then(data => {
-							let json = JSON.parse(data);		
+							let json = JSON.parse(data);
 							dispatch( actions.getShots(json.shots) )
 						})
 				                      	.catch((error) => {
@@ -63,8 +63,13 @@ const actions = {
 		type: 'NOT_SHOW_IMAGE'
 	}),
 	
-	showDescription: () => ({
-		type: 'SHOW_DESCRIPTION'
+	showDescription: (description) => ({
+		type: 'SHOW_DESCRIPTION',
+		payload: description
+	}),
+
+	notShowDescription: () => ({
+		type: 'NOT_SHOW_DESCRIPTION'
 	})
 }
 

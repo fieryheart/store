@@ -25,8 +25,13 @@ const shotsReducer = (state=initialState, action) => {
 
 
 		case 'SHOW_DESCRIPTION':
-			return fromJS(state).set('showDescription', action.payload).toJS();
-			
+			return fromJS(state).set('showDescription', true)
+					.set('description', action.payload).toJS();
+		
+		case 'NOT_SHOW_DESCRIPTION':
+			return fromJS(state).set('showDescription', false)
+					.set('description', null).toJS();
+
 		default:
 			return state;
 	}

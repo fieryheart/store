@@ -25,9 +25,11 @@ class Shot extends Component {
 			viewsCount : this.props.shotInfo.views_count,
 			commentsCount: this.props.shotInfo.comments_count,
 			likesCount: this.props.shotInfo.likes_count,
+			description: this.props.shotInfo.description
 		  };
 
 		this._showImage = this._showImage.bind(this);
+		this._showDescription = this._showDescription.bind(this);
 		  
 	}
 
@@ -41,7 +43,8 @@ class Shot extends Component {
 
 	_showDescription() {
 
-		console.error('Description');
+		let {actions} = this.props;
+		actions.showDescription(this.state.description);
 	}
 
 	render(){
@@ -100,10 +103,10 @@ class Shot extends Component {
 					</View>								
 				</View>
 				<View style={ styles.segment }></View>	
-				<View  style={styles.description}>
+				<View  style={ styles.description }>
 					<TouchableOpacity  onPress={this._showDescription} style={styles.flexOne}>
-						<Text>Logo Description</Text>
-					</TouchableOpacity>	
+						<Text>{ this.state.description }</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 			
@@ -139,9 +142,11 @@ const styles = StyleSheet.create({
 	},
 	description: {
 		flex: 1,
+		height: 150,
 		marginLeft:10,
 		paddingTop: 10,
-		paddingLeft: 10
+		paddingLeft: 10,
+		overflow: 'hidden'
 	},
 	flexOne: {
 		flex: 1
