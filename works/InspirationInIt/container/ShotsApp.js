@@ -72,7 +72,7 @@ class ShotsApp extends Component {
                 <View style={styles.posterContainer}>
                     { this.showImg(state) }
                 </View>
-                <View>
+                <View style={styles.descriptionContainer}>
                     { this.showDescription(state)}
                 </View>
             </View>
@@ -89,6 +89,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#aaaaaa'
     },
     posterContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom:0,
+        left: 0,
+        right: 0
+    },
+    descriptionContainer: {
         position: 'absolute',
         top: 0,
         bottom:0,

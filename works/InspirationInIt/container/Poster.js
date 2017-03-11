@@ -37,18 +37,11 @@ class Poster extends Component {
 	}
 	
 	componentDidMount() {
-		this.state.imgWidth.setValue(1);
+		this.state.imgWidth.setValue(500);
 		this.state.imgHeight.setValue(1);
 		this.state.imgMarginTop.setValue(0);
 
 		Animated.parallel([
-			Animated.spring(
-				this.state.imgWidth,
-				{
-					toValue: 500,
-					friction: 3
-				}
-			),
 			Animated.spring(
 				this.state.imgHeight,
 				{
@@ -71,7 +64,7 @@ class Poster extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.wrap}></View>
+				<View style={styles.curtain}></View>
 				<TouchableHighlight 
 					onPress={this.onDelete}
 					style={styles.button}
@@ -102,7 +95,7 @@ const styles = StyleSheet.create({
 		left: 0,
 		right: 0
 	},
-	wrap: {
+	curtain: {
 		position: 'absolute',
 		top: 0,
 		bottom:0,

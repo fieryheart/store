@@ -36,20 +36,30 @@ class Shot extends Component {
 	_showImage() {
 
 		let {actions}  = this.props;
-		
-		actions.showImage(this.state.imageURL);
+		if(this.state.imageURL){
+			actions.showImage(this.state.imageURL);
+		}
 		
 	}
 
 	_showDescription() {
 
 		let {actions} = this.props;
-		actions.showDescription(this.state.description);
+		if(this.state.description){
+			actions.showDescription(this.state.description);
+		}
+		
 	}
 
 	render(){
 
 		let {actions} = this.props;
+		let description = null;
+		if(this.state.description){
+			description = this.state.description.replace( /<p>|↵/g , "").replace(/<\/p>/g,"\n").replace(/<br \/>/g, "\n");
+		}else{
+			description = "(No description)"
+		}
 
 		return (
 			<View style={ [styles.row , styles.shotWrap] }>
@@ -105,7 +115,7 @@ class Shot extends Component {
 				<View style={ styles.segment }></View>	
 				<View  style={ styles.description }>
 					<TouchableOpacity  onPress={this._showDescription} style={styles.flexOne}>
-						<Text>{ this.state.description }</Text>
+						<Text>{ description } </Text>
 					</TouchableOpacity>
 				</View>
 			</View>
