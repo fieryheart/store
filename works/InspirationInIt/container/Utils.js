@@ -1,21 +1,12 @@
 
-
-
-// 标签类, label指明是什么标签, context指明标签内的内容
-class Label(){
-	constructor(label , context) {
+const Utils = {
 	
-	  	this.label = label,
-		this.context = context
-		
-
+	destructionString: function(string) { 
+		return string.replace( /<p>|↵/g , "").replace(/<\/p>|<br \/>/g , "\n").replace(/<\/a>/g, "\n").replace(/<a.*>/g, function(str){
+																	let arr = str.match(/(\w+):\/\/([\w.]+)\/?(\S*)/);
+																	return arr[0].slice(0, arr[0].length-1) + "\n";
+																})
 	}
 }
 
-
-
-
-export const Utils = {
-	// 解构description中的标签
-
-}
+export default Utils;

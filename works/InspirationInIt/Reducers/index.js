@@ -6,7 +6,9 @@ const initialState = {
 	'showImage': false,
 	'imageURL': null,
 	'showDescription': false,
-	'description': null
+	'description': null,
+	'showComments': false,
+	'comments': []
 }
 
 const shotsReducer = (state=initialState, action) => {
@@ -31,6 +33,13 @@ const shotsReducer = (state=initialState, action) => {
 		case 'NOT_SHOW_DESCRIPTION':
 			return fromJS(state).set('showDescription', false)
 					.set('description', null).toJS();
+		case 'SHOW_COMMENTS':
+			return fromJS(state).set('showComments', true)
+					.set('comments', action.payload).toJS();
+
+		case 'NOT_SHOW_COMMENTS':
+			return fromJS(state).set('showComments', false)
+					.set('comments', []).toJS();
 
 		default:
 			return state;

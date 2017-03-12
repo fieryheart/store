@@ -70,6 +70,41 @@ const actions = {
 
 	notShowDescription: () => ({
 		type: 'NOT_SHOW_DESCRIPTION'
+	}),
+
+	fetchComments: (commentsURL) => (dispatch) => {
+				let request = new Request(commentsURL, {
+				  method: 'GET',
+				  mode: 'cors',
+				  headers: {
+				    'Accept' : 'text/xml',
+				    'Content-Type': 'text/plain;charset=UTF-8',
+				  }
+				});
+
+
+				 fetch(request).then(response => response._bodyInit)
+						.then(data => {
+							let json = JSON.parse(data);
+							dispatch( actions.showComments(json.comments) )
+						})
+				                      	.catch((error) => {
+				                              		console.error(error);
+				                     	});
+				return {
+					type:''
+				};
+	},
+
+	showComments: (comments) => ({
+
+		type: 'SHOW_COMMENTS',
+		payload: comments
+
+	}),
+
+	notShowComments: () => ({
+		type: 'NOT_SHOW_COMMENTS'
 	})
 }
 

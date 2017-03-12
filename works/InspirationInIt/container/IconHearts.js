@@ -12,17 +12,20 @@ import CropImage from 'react-native-cropimage';
 
 
 
-export default class Icon extends Component {
+export default class IconHearts extends Component {
 
+	constructor(props) {
+	  super(props);
+	  
+	  this.state = {
+	  	
+	  };
 
-
-
-
+	}
 
 	render() {
 
 		let { count , cropImage , source } = this.props;
- 
 		return (
 			<View style={{flexDirection: 'row',marginLeft: 8, flex: 1}}>
 				<CropImage
@@ -35,9 +38,9 @@ export default class Icon extends Component {
 					}}
 					width={ cropImage.width }
 					height= { cropImage.height }
-					
+					onPress={ this.handleClick }
 				/>
-				<Text style={ [styles.count_fontSize , styles.count_margin] }>{count}</Text>
+				<Text style={ [styles.count_fontSize , styles.count_margin] } onPress={ this.handleClick }>{count}</Text>
 			</View>
 		);
 	}

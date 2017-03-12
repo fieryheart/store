@@ -11,10 +11,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Action';
 
-
+import Utils from './Utils';
 import Icon from './Icon';
 import CropImage from 'react-native-cropimage';
-
+import IconHearts from './IconHearts';
+import IconComments from './IconComments';
 
 class Shot extends Component {
 
@@ -25,7 +26,8 @@ class Shot extends Component {
 			viewsCount : this.props.shotInfo.views_count,
 			commentsCount: this.props.shotInfo.comments_count,
 			likesCount: this.props.shotInfo.likes_count,
-			description: this.props.shotInfo.description
+			description: this.props.shotInfo.description,
+			commentsURL: this.props.shotInfo.comments_url
 		  };
 
 		this._showImage = this._showImage.bind(this);
@@ -56,7 +58,7 @@ class Shot extends Component {
 		let {actions} = this.props;
 		let description = null;
 		if(this.state.description){
-			description = this.state.description.replace( /<p>|↵/g , "").replace(/<\/p>/g,"\n").replace(/<br \/>/g, "\n");
+			description = Utils.destructionString(this.state.description);
 		}else{
 			description = "(No description)"
 		}
@@ -82,7 +84,7 @@ class Shot extends Component {
 							}}
 							count={this.state.viewsCount}
 						/>
-						<Icon 
+						<IconComments
 							source={require('../app/images/icon-comments.png')}
 							cropImage={{
 								crop:{
@@ -95,8 +97,9 @@ class Shot extends Component {
 								height: 85
 							}}
 							count={this.state.commentsCount}
+							commentsURL={this.state.commentsURL}
 						/>
-						<Icon 
+						<IconHearts 
 							source={require('../app/images/icon-hearts.png')}
 							cropImage={{
 								crop:{

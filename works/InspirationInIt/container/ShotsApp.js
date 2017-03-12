@@ -11,6 +11,8 @@ import actions from '../Action';
 import Poster from './Poster';
 import Shot from './Shot';
 import Description from './Description';
+import Comments from './Comments';
+import Header from './Header';
 
 // 添加redux来改变state重新更新
 class ShotsApp extends Component {
@@ -24,12 +26,14 @@ class ShotsApp extends Component {
         let data = [];
         let {actions}  = this.props;
         if(shots) {
-            shots.forEach( (shot) => {
-                    if(shot){
-                        data.push(<Shot shotInfo={shot} key={shot.id} />)
-                    }
-            })
+                shots.forEach( (shot) => {
+                        if(shot){
+                            data.push(<Shot shotInfo={shot} key={shot.id} />)
+                        }
+                })
         }
+
+
         return data;
     }
 
@@ -58,13 +62,28 @@ class ShotsApp extends Component {
     }
 
 
+    showComments( state ) {
+        let comments = [];
+
+        if(state.showComments){
+            comments.push( <Comments comments={state.comments} key={comments.length}/> );
+        }else{
+            comments.pop();
+        }
+
+        return comments;
+    }
+
+
     render() {
         
         let {state} = this.props;
 
         return (
-            <View>
+            <View style={styles.container}>
+                
                 <ScrollView>
+                    <Header />
                     <View style={styles.shotsBoxSize}>
                          { this.showShotList(state.shots) }      
                     </View>
@@ -75,6 +94,9 @@ class ShotsApp extends Component {
                 <View style={styles.descriptionContainer}>
                     { this.showDescription(state)}
                 </View>
+                <View style={styles.commentsContainer}>
+                    { this.showComments(state)}
+                </View>
             </View>
         );
     }
@@ -82,11 +104,15 @@ class ShotsApp extends Component {
 
 const styles = StyleSheet.create({
 
+    container: {
+        backgroundColor: '#000000'
+    },
+
     shotsBoxSize: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between',
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#000000'
     },
     posterContainer: {
         position: 'absolute',
@@ -101,8 +127,14 @@ const styles = StyleSheet.create({
         bottom:0,
         left: 0,
         right: 0
+    },
+    commentsContainer: {
+        position: 'absolute',
+        top: 0,
+        bottom:0,
+        left: 0,
+        right: 0
     }
-
 });
 
 const mapDispatchToProps = dispatch => ({

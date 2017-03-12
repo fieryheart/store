@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actions from '../Action';
-// import Utils from './Utils';
+import Utils from './Utils';
 
 class Description extends Component {
 	constructor(props) {
@@ -20,10 +20,7 @@ class Description extends Component {
 		
 		if(this.props.description){
 			this.state = {
-				description: this.props.description.replace( /<p>|↵/g , "").replace(/<\/p>|<br \/>/g , "\n").replace(/<\/a>/g, "\n").replace(/<a.*>/g, function(str){
-																						let arr = str.match(/(\w+):\/\/([\w.]+)\/?(\S*)/);
-																						return "\n" + arr[0].slice(0, arr[0].length-1) + "\n";
-																					})
+				description: Utils.destructionString(this.props.description)
 			};
 		}
 
