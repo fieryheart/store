@@ -39,7 +39,7 @@ class Comments extends Component {
 	            data.push( <Comment source={comment.user.avatar_url} comment={comment.body} time={comment.created_at} username={comment.user.username} key={comment.id}/> )
 	        })
 	    }else{
-	        return "No Comments";
+	        return (<Text>No Comments</Text>);
 	    }
 
 	    return data;

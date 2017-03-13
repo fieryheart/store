@@ -5,7 +5,7 @@ const header = {
 	headers: {
 		'Accept' : 'application/json',
 		'Content-Type': 'text/plain',
-		'Authorization': 'Bearer aeaa7f0a2a037ee0e021d23a0e3a1eb07b119d0217a31101c8d226631a10f1f6'
+		'Authorization': 'Bearer b71d32739fc3b576fbc59ee2a094a91cd1b1cab71edea734201b942ab0d1c597'
 	}
 };
 
@@ -14,36 +14,39 @@ const actions = {
 
 	fetchShots: () => (dispatch) => {
 
-				// let url = BASIC_URL + '/shots';
+				let url = BASIC_URL + '/shots';
 				
-				// let request = new Request(url, header);
+				let request = new Request(url, header);
 
-				// fetch( request ).then( response => response.json() )
-				// 	.then( (json) => {
-				// 		dispatch( actions.getShots(json) );		
-				// 	})
-				// 	.catch((error) => {
-				// 		console.error(error);
-				// 	})
-				
-				let request = new Request('http://10.0.2.2:8888' , {
-				  method: 'GET',
-				  mode: 'cors',
-				  headers: {
-				    'Accept' : 'text/xml',
-				    'Content-Type': 'text/plain;charset=UTF-8',
-				  }
-				});
+				fetch( request ).then( response => response.json() )
+					.then( (json) => {
+
+						dispatch( actions.getShots(json) );		
+					})
+					.catch((error) => {
+						console.error(error);
+					})
+
+	//模拟接口时用的URL
+
+				// let request = new Request('http://10.0.2.2:8888' , {
+				//   method: 'GET',
+				//   mode: 'cors',
+				//   headers: {
+				//     'Accept' : 'text/xml',
+				//     'Content-Type': 'text/plain;charset=UTF-8',
+				//   }
+				// });
 
 
-				 fetch(request).then(response => response._bodyInit)
-						.then(data => {
-							let json = JSON.parse(data);
-							dispatch( actions.getShots(json.shots) )
-						})
-				                      	.catch((error) => {
-				                              		console.error(error);
-				                     	});
+				//  fetch(request).then(response => response._bodyInit)
+				// 		.then(data => {
+				// 			let json = JSON.parse(data);
+				// 			dispatch( actions.getShots(json.shots) )
+				// 		})
+				//                       	.catch((error) => {
+				//                               		console.error(error);
+				//                      	});
 				return {
 					type:''
 				};
@@ -71,22 +74,40 @@ const actions = {
 	notShowDescription: () => ({
 		type: 'NOT_SHOW_DESCRIPTION'
 	}),
+	
+	//模拟接口时用的URL
+	// fetchComments: (commentsURL) => (dispatch) => {
+	// 			let request = new Request(commentsURL, {
+	// 			  method: 'GET',
+	// 			  mode: 'cors',
+	// 			  headers: {
+	// 			    'Accept' : 'text/xml',
+	// 			    'Content-Type': 'text/plain;charset=UTF-8',
+	// 			  }
+	// 			});
+
+
+	// 			 fetch(request).then(response => response._bodyInit)
+	// 					.then(data => {
+	// 						let json = JSON.parse(data);
+	// 						dispatch( actions.showComments(json.comments) )
+	// 					})
+	// 			                      	.catch((error) => {
+	// 			                              		console.error(error);
+	// 			                     	});
+	// 			return {
+	// 				type:''
+	// 			};
+	// },
 
 	fetchComments: (commentsURL) => (dispatch) => {
-				let request = new Request(commentsURL, {
-				  method: 'GET',
-				  mode: 'cors',
-				  headers: {
-				    'Accept' : 'text/xml',
-				    'Content-Type': 'text/plain;charset=UTF-8',
-				  }
-				});
+		
+				let request = new Request(commentsURL, header);
 
 
-				 fetch(request).then(response => response._bodyInit)
-						.then(data => {
-							let json = JSON.parse(data);
-							dispatch( actions.showComments(json.comments) )
+				 fetch(request).then(response => response.json())
+						.then(json => {
+							dispatch( actions.showComments(json) )
 						})
 				                      	.catch((error) => {
 				                              		console.error(error);
@@ -95,6 +116,7 @@ const actions = {
 					type:''
 				};
 	},
+
 
 	showComments: (comments) => ({
 

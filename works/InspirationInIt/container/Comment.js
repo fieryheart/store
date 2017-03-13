@@ -26,7 +26,7 @@ export default class Comment extends Component {
 					<Image source={{
 						uri: this.props.source
 					}} style={styles.avatar}/>
-					<Text>{this.props.username}</Text>
+					<Text style={styles.username}>{this.props.username}</Text>
 				</View>
 				<View style={styles.information}>
 					<Text style={styles.context}>{comment}</Text>
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		borderBottomWidth: 1,
 		borderBottomColor: '#eeeeee',
-		paddingTop: 10,
-		paddingBottom: 10
+		paddingBottom: 10,
+		paddingTop: 10
 	},
 	user: {
 		flexDirection: 'column',
@@ -73,5 +73,10 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		marginTop: 50,
 		color: '#aaaaaa'
+	},
+	username: {
+		// width: 80,
+		// overflow: 'hidden',
+		// flexDirection: 'row'
 	}
 });

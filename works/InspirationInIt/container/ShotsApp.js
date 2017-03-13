@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,6 +15,8 @@ import Description from './Description';
 import Comments from './Comments';
 import Header from './Header';
 
+
+const {width, height} = Dimensions.get('window');
 // 添加redux来改变state重新更新
 class ShotsApp extends Component {
 
@@ -25,7 +28,7 @@ class ShotsApp extends Component {
     showShotList(shots) {
         let data = [];
         let {actions}  = this.props;
-        if(shots) {
+        if(shots) {              
                 shots.forEach( (shot) => {
                         if(shot){
                             data.push(<Shot shotInfo={shot} key={shot.id} />)
@@ -85,7 +88,8 @@ class ShotsApp extends Component {
                 <ScrollView>
                     <Header />
                     <View style={styles.shotsBoxSize}>
-                         { this.showShotList(state.shots) }      
+                         { this.showShotList(state.shots) }
+                         <Text>hello</Text>     
                     </View>
                 </ScrollView>
                 <View style={styles.posterContainer}>
@@ -105,6 +109,8 @@ class ShotsApp extends Component {
 const styles = StyleSheet.create({
 
     container: {
+        width: width,
+        height: height,
         backgroundColor: '#000000'
     },
 
