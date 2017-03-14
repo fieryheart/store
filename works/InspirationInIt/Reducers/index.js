@@ -15,7 +15,7 @@ const shotsReducer = (state=initialState, action) => {
 
 	switch (action.type) {
 		case 'GET_SHOTS':
-			return fromJS(state).set('shots', action.payload).toJS();
+			return fromJS(state).update('shots', list => list.push(...action.payload)).toJS();
 
 		case 'SHOW_IMAGE':
 			return fromJS(state).set('showImage', true)
@@ -35,7 +35,7 @@ const shotsReducer = (state=initialState, action) => {
 					.set('description', null).toJS();
 		case 'SHOW_COMMENTS':
 			return fromJS(state).set('showComments', true)
-					.set('comments', action.payload).toJS();
+					.update('comments', list => list.push(...action.payload)).toJS();
 
 		case 'NOT_SHOW_COMMENTS':
 			return fromJS(state).set('showComments', false)

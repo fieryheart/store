@@ -1,4 +1,5 @@
-const BASIC_URL = 'https://api.dribbble.com/v1';
+const BASIC_URL = 'https://api.dribbble.com/v1/shots'
+
 const header = {
 	method: 'GET',
 	mode: 'cors',
@@ -7,20 +8,22 @@ const header = {
 		'Content-Type': 'text/plain',
 		'Authorization': 'Bearer b71d32739fc3b576fbc59ee2a094a91cd1b1cab71edea734201b942ab0d1c597'
 	}
-};
+}
 
+var shotsPage = 1
+var commentsPage = 1
+var commentsURL = '';
 
 const actions = {
 
 	fetchShots: () => (dispatch) => {
 
-				let url = BASIC_URL + '/shots';
+				let url = BASIC_URL + "?page=" + shotsPage++;
 				
 				let request = new Request(url, header);
 
 				fetch( request ).then( response => response.json() )
 					.then( (json) => {
-
 						dispatch( actions.getShots(json) );		
 					})
 					.catch((error) => {
@@ -100,9 +103,13 @@ const actions = {
 	// 			};
 	// },
 
-	fetchComments: (commentsURL) => (dispatch) => {
-		
-				let request = new Request(commentsURL, header);
+	fetchComments: (url) => (dispatch) => {
+				
+				commentsURL = url ? url : commentsURL;
+
+				console.error(commentsURL);
+
+				let request = new Request(commentsURL + '?page=' + commentsPage++ , header)
 
 
 				 fetch(request).then(response => response.json())
@@ -110,11 +117,11 @@ const actions = {
 							dispatch( actions.showComments(json) )
 						})
 				                      	.catch((error) => {
-				                              		console.error(error);
+				                              		console.error(error)
 				                     	});
 				return {
 					type:''
-				};
+				}
 	},
 
 
@@ -125,9 +132,13 @@ const actions = {
 
 	}),
 
-	notShowComments: () => ({
-		type: 'NOT_SHOW_COMMENTS'
-	})
+	notShowComments: () => {
+		// 评论页数变为1
+		commentsPage = 1
+		return ({
+			type: 'NOT_SHOW_COMMENTS'
+		})
+	} 
 }
 
 export default actions;

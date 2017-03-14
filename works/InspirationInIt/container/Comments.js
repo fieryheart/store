@@ -47,7 +47,7 @@ class Comments extends Component {
 
 	render() {
 
-		let {comments} = this.props;
+		let {comments, actions} = this.props;
 
 		return (
 			<View style={styles.container}>
@@ -61,6 +61,9 @@ class Comments extends Component {
 				</TouchableHighlight>
 				<ScrollView style={styles.comments}>
 					{ this.showComments(comments)}
+					<TouchableHighlight onPress={actions.fetchComments} underlayColor="#000000">
+					    <Text style={styles.getMore}>Get More...</Text>
+					</TouchableHighlight>
 				</ScrollView>
 			</View>
 		);
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
 	container:{
 		position: 'absolute',
 		top: 0,
-		bottom:0,
+		bottom: 0,
 		left: 0,
 		right: 0,
 	},
@@ -106,6 +109,19 @@ const styles = StyleSheet.create({
 		paddingTop: 30,
 		paddingLeft: 20,
 		paddingRight: 20
+	},
+	getMore: {
+	    flex: 1,
+	    color: "#000000",
+	    fontSize: 14,
+	    textAlign: 'center',
+	    justifyContent: 'center',
+	    backgroundColor: '#aaaaaa',
+	    marginLeft: 10,
+	    marginRight: 10,
+	    borderRadius: 5,
+	    paddingTop: 8,
+	    paddingBottom: 8
 	}
 });
 

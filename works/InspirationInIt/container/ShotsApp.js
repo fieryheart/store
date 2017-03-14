@@ -4,7 +4,8 @@ import {
   Text,
   View,
   ScrollView,
-  Dimensions
+  Dimensions,
+  TouchableHighlight 
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -80,7 +81,7 @@ class ShotsApp extends Component {
 
     render() {
         
-        let {state} = this.props;
+        let {state, actions} = this.props;
 
         return (
             <View style={styles.container}>
@@ -91,6 +92,9 @@ class ShotsApp extends Component {
                          { this.showShotList(state.shots) }
                          <Text>hello</Text>     
                     </View>
+                    <TouchableHighlight onPress={actions.fetchShots} underlayColor="#000000">
+                        <Text style={styles.getMore}>Get More...</Text>
+                    </TouchableHighlight>
                 </ScrollView>
                 <View style={styles.posterContainer}>
                     { this.showImg(state) }
@@ -111,7 +115,8 @@ const styles = StyleSheet.create({
     container: {
         width: width,
         height: height,
-        backgroundColor: '#000000'
+        backgroundColor: '#000000',
+        paddingBottom: 50
     },
 
     shotsBoxSize: {
@@ -140,6 +145,19 @@ const styles = StyleSheet.create({
         bottom:0,
         left: 0,
         right: 0
+    },
+    getMore: {
+        flex: 1,
+        color: "#000000",
+        fontSize: 14,
+        textAlign: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#aaaaaa',
+        marginLeft: 10,
+        marginRight: 10,
+        borderRadius: 5,
+        paddingTop: 8,
+        paddingBottom: 8
     }
 });
 
