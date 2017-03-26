@@ -235,6 +235,29 @@ xhr.send();
 | 31 | xhr | Function | 在回调内创建并返回xhr对象 |
 | 32 | xhrFields | PlainObject | 键值对对象, 用于设置原生的xhr对象, 如可用来设置withCredentials:true(jq1.5.1新增) |
 
+### $.ajax支持promise
++ 自jq1.5之后, $.ajax返回的jqXHR对象实现了promise接口
++ 具有以下三种方法
+ + done( function(data, textStatus, jqXHR ){} )
+ + fail( function(jqXHR, textStatus, errorThrown ){} )
+ + always( function(data or jqXHR, textStatus, jqXHR or errorThrown ){} )
+
+## ajax跨域请求
+### CORS
++ CORS是跨域资源共享(Cross-origin resource sharing)
++ CORS 兼容性  
+![Alt text](CORS兼容性.png)
++ CORS有关的headers
+ + Access-Control-Allow-Origin: 指定允许哪些源的网页发送请求
+ + Access-Control-Allow-Credentials: 指定是都允许cookie发送
+ + Access-Control-Allow-Methods: 指定允许哪些请求方法
+ + Access-Control-Allow-Headers: 指定允许哪些常规的头域字段，比如说Content-Type
+ + Access-Control-Expose-Headers: 指定允许哪些额外的头域字段，比如说X-Custom-Header
+ + Access-Control-Max-Age: 指定preflight OPTIONS请求的有效期，单位为秒
+ + Access-Control-Request-Method: 告知服务器，浏览器将发送哪种请求，比如说POST
+ + Access-Control-Request-Headers: 告知服务器，浏览器将包含哪些额外的头域字段
+
+
 ## 全平台兼容的XMLHttpRequest写法
 ```
 function getXHR(){
@@ -255,3 +278,6 @@ function getXHR(){
   return xhr;
 }
 ```
+
+## 参考文章
++ https://juejin.im/post/58c883ecb123db005311861a
