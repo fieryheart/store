@@ -33,11 +33,25 @@ nav {
 }
 ```
 
+## mixin
++ 使用@mixin命令,定义一个代码块
+```
+@mixin left{
+  float: left;
+  margin-left: 10px;
+}
+
+// 使用@include，调用这个mixin
+div {
+  @include left;
+}
+```
+
 ## 导入外部文件
 + @import "文件名"
 
 ## 条件语句
-+ `@if` 和 @else
++ `@if` 和 `@else`
 ```
 @if lighten($color) > 30% {
   background: #000;

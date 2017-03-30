@@ -16,7 +16,7 @@ let actions = {
 		}).done(data => {
 			dispatch(actions.donePickApple(data.weight))
 		})
-		.fail(xht => {
+		.fail(xht  => {
 			dispatch(actions.failPickApple(xhr.responseText));
 		}),
 
@@ -66,4 +66,4 @@ export default actions;
 	}
 
 	dispatch( pickAppleAction )
-*/ 
+*/
