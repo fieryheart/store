@@ -13,3 +13,8 @@
 + 数据库部分无法实现
 > 原因是没有开启mysql  
 > 以及在controller->Dao->database.js->`mysql.createConnection()`传入的用户(root)和密码(123456789)需要和自己在mysql上面设置的用户一一对应
+
+## app.js中我学到的东西
++ app.use()用来加载中间件，而中间件可以用来将发送过来的请求根据加入的函数操作来依次执行，最终得到我们想要的请求数据
++ app.engine()和app.set()用来设置你使用是什么样的模板后缀，以及你默认的模板文件
++ handleStatusError中也使用了app.use()用来返回错误的页面，但并没有发现检测错误的代码在哪里
