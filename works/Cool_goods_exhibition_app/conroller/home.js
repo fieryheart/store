@@ -46,7 +46,7 @@ exports.postDataBase = (req, res) => {
   let jsonData = req.body.param,
       paramObj = JSON.parse(jsonData);
 
-      database.query("select * from t_user t where t.u_name = ?", [paramObj,username], function(data) {
+      database.query("select * from t_user t where t.u_name = ?", [paramObj.username], function(data) {
         let msg = {
           success: true,
           data: data

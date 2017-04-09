@@ -27,13 +27,13 @@ exports.setRequestUrl = (app) => {
   })
 
   // home页路由
-  app.get('/', (req, res) => {
+  app.get('/home', (req, res) => {
 
     home.renderHomePage(req, res);
 
   })
   // about页路由
-  app.get('/home', (req, res) => {
+  app.get('/about', (req, res) => {
 
     about.renderAboutPage(req, res);
 

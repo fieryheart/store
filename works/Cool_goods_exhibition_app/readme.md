@@ -18,3 +18,18 @@
 + app.use()用来加载中间件，而中间件可以用来将发送过来的请求根据加入的函数操作来依次执行，最终得到我们想要的请求数据
 + app.engine()和app.set()用来设置你使用是什么样的模板后缀，以及你默认的模板文件
 + handleStatusError中也使用了app.use()用来返回错误的页面，但并没有发现检测错误的代码在哪里
+
+## controller-home.js
++ cookie.js中的addCookie(/响应/, /cookie的key/, /cookie的value/)
++ database.query(/sql语句/, /与数据库相比较的参数,即比较传过来的数据/, /回调函数，第一个参数是查找到的数据/)
++ exports.renderHomePage中的res.render()什么鬼
+
+## secret.js
++ 阅读cryto源码
+
+## sea_module -> home -> home.js
++ 页面模板是怎么发送过去的，我在代码中还没有发现
+
+## public -> js -> util.js
++ 对ajax的一次封装
++ swal()的用法是什么

@@ -24,8 +24,8 @@ app.use(cookieParser());
 // 使用static中间件，制定public目录为静态资源目录， 其中资源不会经过任何处理
 app.use('/static', express.static(__dirname + '/public'));
 
-//
-router.setRequest(___);
+// 集合请求Url 配置路由文件的使用
+router.setRequest(app);
 
 app.engine('.hbs', exphbs({
     defaultLayout: 'index', //默认布局模板为index.hbs
