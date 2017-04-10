@@ -33,3 +33,7 @@
 ## public -> js -> util.js
 + 对ajax的一次封装
 + swal()的用法是什么
+
+## views -> pages -> about.hbs
++ {{#each product}}是什么
++ {{/each}}是什么

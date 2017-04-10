@@ -1,0 +1,53 @@
+
+<h1>{{ title }}</h1>
+<div class="about-box">
+  <button type="button" id='get_data' name="button">点击获取地址</button>
+  <button type="button" id='get_list' name="button">点击获取商品</button>
+    <table>
+        <thead>
+          <tr>
+            <td>城市</td>
+            <td>辖区</td>
+            <td>详细地址</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>{{address.name}}</td>
+            <td>{{address.addres}}</td>
+            <td>{{address.infor}}</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody id="tb_body">
+
+        </tbody>
+    </table>
+    <table>
+        <thead>
+          <tr>
+            <td>品牌</td>
+            <td>名称</td>
+            <td>价格</td>
+            <td>照片</td>
+            <td>操作</td>
+          </tr>
+          {{#each product}}
+            <tr>
+              <td>{{p_brand}}</td>
+              <td>{{p_name}}</td>
+              <td>{{p_price}}元</td>
+              <td><img style="width:120px;height:auto;" src="/static/images/list/{{p_index_imgLIST}}" alt="" /></td>
+              <td><a style="color: white;
+              padding: 10px 30px;
+              display:inline-block;
+              text-decoration: none;
+              background: #fc5144;
+              border-radius:3px;" href="/details?p_id={{p_id}}">查看详情</a></td>
+            </tr>
+          {{/each}}
+        </thead>
+        <tbody class="tb-body2" id="tb_body2">
+
+        </tbody>
+    </table>
+</div>
