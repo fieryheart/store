@@ -22,13 +22,13 @@
 ## controller-home.js
 + cookie.js中的addCookie(/响应/, /cookie的key/, /cookie的value/)
 + database.query(/sql语句/, /与数据库相比较的参数,即比较传过来的数据/, /回调函数，第一个参数是查找到的数据/)
-+ exports.renderHomePage中的res.render()什么鬼
++ exports.renderHomePage中的res.render()中，第一个参数为添加的模板，第二个参数是一个options, 其中带着你要渲染到模板上面的一系列数据, 在模板上面使用`{{}}`来表示你添加的值，比如在options中有一个`layouts: index`即使用index.hbs模板
 
 ## secret.js
 + 阅读cryto源码
 
 ## sea_module -> home -> home.js
-+ 页面模板是怎么发送过去的，我在代码中还没有发现
++ 为home页面的js文件
 
 ## public -> js -> util.js
 + 对ajax的一次封装
