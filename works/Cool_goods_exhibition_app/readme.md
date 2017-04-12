@@ -37,3 +37,4 @@
 ## views -> pages -> about.hbs
 + {{#each product}}是什么
 + {{/each}}是什么
++ {{#each product}}和{{/each}}配套使用，即添加列表
